@@ -1,0 +1,43 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+# *.jar
+*.war
+*.ear
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+/.project
+
+# Exclude from root Eclipse workspace
+.metadata/**
+myapp/**
+.recommenders/**
+RemoteSystemsTempFiles/**
+Servers/**
+simple-hello/**
+
+# Exclude from local projects
+exo101/build/**
+exo101/.classpath
+exo101/.project
+exo101/.settings/**
+
+# Exclude from local projects
+exo102/build/**
+exo102/.classpath
+exo102/.project
+exo102/.settings/**
+
