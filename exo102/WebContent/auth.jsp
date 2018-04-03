@@ -33,13 +33,15 @@
 		String errorMessage = (String) request.getAttribute("errorMessage");
     	if( errorMessage != null ){
     %>    	    
-		<div class="alert alert-danger" role="alert">
-			<h5 class="form-signin-heading">
-		<%
-			  out.println(errorMessage);
-		%>
-		 	</h5>
-		</div>	
+    	<div class="form-signin">    	
+			<div class="alert alert-danger" role="alert">
+				<h5 class="form-signin-heading">
+			<%
+				  out.println(errorMessage);
+			%>
+			 	</h5>
+			</div>	
+    	</div>
     <%
     	}
 	%>
@@ -49,17 +51,18 @@
 		String logoutMsg = (String) request.getAttribute("logoutMsg");
     	if( logoutMsg != null ){
     %>    	    
-		<div class="alert alert-success" role="alert">
-			<h5 class="form-signin-heading">
-		<%
-			  out.println(logoutMsg);
-		%>
-		 	</h5>
-		</div>	
+    	<div class="form-signin">    	    
+			<div class="alert alert-success" role="alert">
+				<h5 class="form-signin-heading">
+			<%
+				  out.println(logoutMsg);
+			%>
+			 	</h5>
+			</div>	
+		</div>
     <%
     	}
 	%>	
-	
 
       <form class="form-signin" method="post" action="auth">
         <h2 class="form-signin-heading">
