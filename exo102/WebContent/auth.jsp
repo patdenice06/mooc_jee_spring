@@ -27,42 +27,33 @@
 <body>
 
     <div class="container">
-
-	<%
-		// Authentication failed ?
-		String errorMessage = (String) request.getAttribute("errorMessage");
-    	if( errorMessage != null ){
-    %>    	    
-    	<div class="form-signin">    	
-			<div class="alert alert-danger" role="alert">
-				<h5 class="form-signin-heading">
-			<%
-				  out.println(errorMessage);
-			%>
-			 	</h5>
-			</div>	
-    	</div>
-    <%
-    	}
-	%>
+		<!-- Authentication failure -->
+		<%
+			String errorMessage = (String) request.getAttribute("errorMessage");
+		   	if( errorMessage != null ){
+		   		out.println("<div class=\"form-signin\">");
+		   		out.println("<div class=\"alert alert-danger\" role=\"alert\">");
+		   		out.println("<h5 class=\"form-signin-heading\">");
+				out.println(errorMessage);
+		   	}
+		   	out.println("</h5>");
+		   	out.println("</div>");
+		   	out.println("</div>");
+		%>
 	
-	<%
-		// Logout status
-		String logoutMsg = (String) request.getAttribute("logoutMsg");
-    	if( logoutMsg != null ){
-    %>    	    
-    	<div class="form-signin">    	    
-			<div class="alert alert-success" role="alert">
-				<h5 class="form-signin-heading">
-			<%
-				  out.println(logoutMsg);
-			%>
-			 	</h5>
-			</div>	
-		</div>
-    <%
-    	}
-	%>	
+		<!-- Logout status -->
+		<%
+			String logoutMsg = (String) request.getAttribute("logoutMsg");
+		   	if( logoutMsg != null ){
+		   		out.println("<div class=\"form-signin\">");    	    
+		   		out.println("<div class=\"alert alert-success\" role=\"alert\">");
+				out.println("<h5 class=\"form-signin-heading\">");
+				out.println(logoutMsg);
+				out.println("</h5>");
+				out.println("</div>");
+				out.println("</div>");
+		   	}
+		%>	
 
       <form class="form-signin" method="post" action="auth">
         <h2 class="form-signin-heading">

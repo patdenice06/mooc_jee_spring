@@ -34,13 +34,12 @@ public class AuthServlet extends HttpServlet {
 		
 		System.out.println("succeed = " + succeed);	// DEBUG
 		
+		HttpSession session = req.getSession();
 		// TODO : if auth is OK, 
 		  // add something in session for next calls, 
 		  // then redirect to "welcome.jsp"
 		if( succeed ) {
-			HttpSession session = req.getSession();
-			session.setAttribute("login",login);  
-			session.setAttribute("password",password);
+			session.setAttribute("authenticate","OK");  
 			resp.sendRedirect("/exo102/welcome.jsp");
 		}
 
@@ -48,6 +47,7 @@ public class AuthServlet extends HttpServlet {
 		  // set an "errorMessage" in request attribute
 		  // forward to auth.jsp with request dispatcher
 		else {
+			session.setAttribute("authenticate","KO");  
 			req.setAttribute("errorMessage", "Login or password incorrect");
 			req.getRequestDispatcher("/auth.jsp").forward(req, resp);
 		}
@@ -61,19 +61,23 @@ public class AuthServlet extends HttpServlet {
 	  // TODO : check for "logout" parameter
 	  //   if so : disconnect and show auth.jsp
 	  //   if not : Error 500
-		System.out.println("Enter DoGet");	// DEBUG
-		String logout = (String) req.getParameter("logout");
-		
+		System.out.println("Enter DoGet");	// DEBUG		
+		String logout = (String) req.getParameter("logout");		
 		System.out.println("logout = " + logout);	// DEBUG
 		
+        HttpSession session = req.getSession(false);
 		if( logout != null ) {
 			req.setAttribute("logoutMsg", "Vous êtes maintenant déconnecté");
+            session.removeAttribute("authenticate");
 			this.getServletContext().getRequestDispatcher("/auth.jsp").forward(req, resp);			
 		}
 		else {
-			this.getServletContext().getRequestDispatcher("/auth.jsp").forward(req, resp);						
+			// logout is null
+			if ( session == null || session.getAttribute("authenticate") == null )
+				this.getServletContext().getRequestDispatcher("/auth.jsp").forward(req, resp);			
+			else	
+				throw new ServletException("no logout parameter");	
 		}
-		
 	}
 
 }
