@@ -31,27 +31,27 @@
 		<%
 			String errorMessage = (String) request.getAttribute("errorMessage");
 		   	if( errorMessage != null ){
-		   		out.println("<div class=\"form-signin\">");
-		   		out.println("<div class=\"alert alert-danger\" role=\"alert\">");
-		   		out.println("<h5 class=\"form-signin-heading\">");
+		   		out.println("<div class=\"form-signin\">" +
+		   						"<div class=\"alert alert-danger\" role=\"alert\">" +
+		   							"<h5 class=\"form-signin-heading\">");
 				out.println(errorMessage);
 		   	}
-		   	out.println("</h5>");
-		   	out.println("</div>");
-		   	out.println("</div>");
-		%>
+		   	out.println("			</h5>" +
+		   						"</div>" +
+		   					"</div>");
+		%>		
 	
 		<!-- Logout status -->
 		<%
 			String logoutMsg = (String) request.getAttribute("logoutMsg");
 		   	if( logoutMsg != null ){
-		   		out.println("<div class=\"form-signin\">");    	    
-		   		out.println("<div class=\"alert alert-success\" role=\"alert\">");
-				out.println("<h5 class=\"form-signin-heading\">");
+		   		out.println("<div class=\"form-signin\">" +
+   								"<div class=\"alert alert-sucess\" role=\"alert\">" +
+   									"<h5 class=\"form-signin-heading\">");
 				out.println(logoutMsg);
-				out.println("</h5>");
-				out.println("</div>");
-				out.println("</div>");
+			   	out.println("		</h5>" +
+	   							"</div>" +
+	   						"</div>");
 		   	}
 		%>	
 
