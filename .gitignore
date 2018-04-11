@@ -43,3 +43,10 @@ exo102/.settings/**
 
 /.metadata/
 /.recommenders/
+
+# Exclude from local project week2_screencast_jdbc
+week2_screencast_jdbc/bin/**
+week2_screencast_jdbc/build/**
+week2_screencast_jdbc/.classpath
+week2_screencast_jdbc/.project
+week2_screencast_jdbc/.settings/
