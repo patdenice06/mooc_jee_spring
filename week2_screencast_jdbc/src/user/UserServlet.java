@@ -1,3 +1,4 @@
+package user;
 import javax.servlet.http.*;
 import javax.servlet.ServletException;
 
@@ -6,7 +7,7 @@ import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 
 @WebServlet(urlPatterns={"/signin"})
-public class MyServlet extends HttpServlet {
+public class UserServlet extends HttpServlet {
 
 	/**
 	 * 
