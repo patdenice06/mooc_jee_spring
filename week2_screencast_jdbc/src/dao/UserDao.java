@@ -1,5 +1,7 @@
-package user;
+package dao;
 import java.util.List;
+
+import model.User;
 
 public interface UserDao {
 	
@@ -12,4 +14,6 @@ public interface UserDao {
 	*/
 	
 	public List<User> listAll();
+	public void create(User user, String password);
+	
 }

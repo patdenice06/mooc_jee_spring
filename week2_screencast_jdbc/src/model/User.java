@@ -1,4 +1,4 @@
-package user;
+package model;
 
 import java.time.*;
 import java.util.Date;
@@ -9,7 +9,7 @@ public class User {
 	private String email;
 	private String firstName;
 	private String lastName;
-	private Date birthday;
+	private LocalDate birthday;
 	
 
 	// password should not be in this object ...
@@ -30,8 +30,8 @@ public class User {
 	public String getLastName() { return lastName; }
 	public void setLastName(String lastName) { this.lastName = lastName; }
 	
-	public Date getBirthday() { return birthday; }
-	public void setBirthday(Date birthday) { this.birthday = birthday; }
+	public LocalDate getBirthday() { return birthday; }
+	public void setBirthday(LocalDate localDate) { this.birthday = localDate; }
 
 	public int getAge() { 
 		if ( birthday == null ) return -1;
@@ -42,14 +42,20 @@ public class User {
 			.atZone(ZoneId.systemDefault())
 			.toLocalDate();
 		
-		LocalDate birthDate = 
+//		LocalDate birthDate = 
 //			birthday.toInstant()	// Remove because always throws UnsupportedOperationException
-			new java.util.Date(birthday.getTime()).toInstant()	
-			.atZone(ZoneId.systemDefault())
-			.toLocalDate();
+//			new java.util.Date(birthday.getTime()).toInstant()	
+//			.atZone(ZoneId.systemDefault())
+//			.toLocalDate();
+		
+//		LocalDate birthDate =
+//				birthday.at
+		
+			
 		
 		return 
-			Period.between( birthDate, today )
+//			Period.between( birthDate, today )
+			Period.between( birthday, today )
 			.getYears();
 	}
 		

@@ -49,4 +49,4 @@ week2_screencast_jdbc/bin/**
 week2_screencast_jdbc/build/**
 week2_screencast_jdbc/.classpath
 week2_screencast_jdbc/.project
-week2_screencast_jdbc/.settings/
+week2_screencast_jdbc/.settings/**

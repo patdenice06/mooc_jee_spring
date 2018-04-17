@@ -1,18 +1,21 @@
-package user;
+package dao;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.*;
+
+import model.User;
 
 /**
  * Use with MySQL JDBC Driver
  */
-public class UserMySQLImpl implements UserDao {
+public class UserDaoMySQLImpl implements UserDao {
 	
 	private Connection conn;
 	private String url = "jdbc:mysql://localhost:3306/users";
 	private String dbUser = "patrick";
 	private String dbPassword = "pat123";
 	
-	public UserMySQLImpl( ) {
+	public UserDaoMySQLImpl( ) {
 		/* Load mysql jdbc driver */
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -46,7 +49,8 @@ public class UserMySQLImpl implements UserDao {
 				user.setEmail( rs.getString("email") );
 				user.setFirstName( rs.getString("firstname") );
 				user.setLastName( rs.getString("lastname") );
-				user.setBirthday( rs.getDate("birthday") );
+//				user.setBirthday( rs.getDate("birthday") );
+				user.setBirthday( LocalDate.parse( rs.getString("birthday") ) );
 				
 				res.add(user);
 			}			
@@ -65,6 +69,48 @@ public class UserMySQLImpl implements UserDao {
 		
 		return res;
 
+	}
+
+	@Override
+	/**
+	 * Create a new User
+	 */
+	public void create(User user, String password) {
+		PreparedStatement stmt = null;
+		String query = null;
+		int nb = 0;
+		try {			
+			StringBuffer sb = new StringBuffer();		
+			sb.append("INSERT INTO persons");
+			sb.append("(email, password, firstname, lastname, birthday) ");
+			sb.append("VALUES ( ");
+			sb.append("?, ?, ?, ?, ?");
+			sb.append(")");
+			
+			query = sb.toString();
+
+			stmt = conn.prepareStatement(query);;
+			stmt.setString(1, user.getEmail());
+			stmt.setString(2, password);
+			stmt.setString(3, user.getFirstName());
+			stmt.setString(4, user.getLastName());
+			stmt.setString(5, user.getBirthday().toString());
+
+			nb = stmt.executeUpdate(); // optionally check the return value of this cal
+			
+			} catch (SQLException e) {
+			
+			try {
+				stmt.close();
+				conn.close();
+			} catch (SQLException e1) {
+				throw new Error("Failed on closing connection resources. '" + e1);
+			}
+			
+			throw new Error("Unable to execute query '" + query + "' : " + e);
+		}
+			
+		System.out.println(nb + " insert(s)");		
 	}
 
 }

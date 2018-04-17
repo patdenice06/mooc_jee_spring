@@ -1,19 +1,22 @@
-package user;
+package dao;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.*;
+
+import model.User;
 
 /**
  * Use with SQLite JDBC Driver
  */
 
-public class UserSQLiteImpl implements UserDao {
+public class UserDaoSQLiteImpl implements UserDao {
 	
 	private Connection conn;
 	private String url = "jdbc:mysql://localhost:3306/users";
 	private String dbUser = "patrick";
 	private String dbPassword = "pat123";
 	
-	public UserSQLiteImpl( ) {
+	public UserDaoSQLiteImpl( ) {
 		/* Load mysql jdbc driver */
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -47,7 +50,7 @@ public class UserSQLiteImpl implements UserDao {
 				user.setEmail( rs.getString("email") );
 				user.setFirstName( rs.getString("firstname") );
 				user.setLastName( rs.getString("lastname") );
-				user.setBirthday( rs.getDate("birthday") );
+				user.setBirthday( LocalDate.parse( rs.getString("birthday") ) );
 				
 				res.add(user);
 			}			
@@ -65,6 +68,11 @@ public class UserSQLiteImpl implements UserDao {
 		}
 		
 		return res;
+
+	}
+
+	@Override
+	public void create(User user, String password) {
 
 	}
 
