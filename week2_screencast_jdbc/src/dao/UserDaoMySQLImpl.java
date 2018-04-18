@@ -49,7 +49,6 @@ public class UserDaoMySQLImpl implements UserDao {
 				user.setEmail( rs.getString("email") );
 				user.setFirstName( rs.getString("firstname") );
 				user.setLastName( rs.getString("lastname") );
-//				user.setBirthday( rs.getDate("birthday") );
 				user.setBirthday( LocalDate.parse( rs.getString("birthday") ) );
 				
 				res.add(user);
@@ -76,7 +75,7 @@ public class UserDaoMySQLImpl implements UserDao {
 	 * Create a new User
 	 */
 	public void create(User user, String password) {
-		PreparedStatement stmt = null;
+		PreparedStatement pstmt = null;
 		String query = null;
 		int nb = 0;
 		try {			
@@ -89,19 +88,19 @@ public class UserDaoMySQLImpl implements UserDao {
 			
 			query = sb.toString();
 
-			stmt = conn.prepareStatement(query);;
-			stmt.setString(1, user.getEmail());
-			stmt.setString(2, password);
-			stmt.setString(3, user.getFirstName());
-			stmt.setString(4, user.getLastName());
-			stmt.setString(5, user.getBirthday().toString());
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, user.getEmail());
+			pstmt.setString(2, password);
+			pstmt.setString(3, user.getFirstName());
+			pstmt.setString(4, user.getLastName());
+			pstmt.setString(5, user.getBirthday().toString());
 
-			nb = stmt.executeUpdate(); // optionally check the return value of this cal
+			nb = pstmt.executeUpdate();	// number of inserts
 			
 			} catch (SQLException e) {
 			
 			try {
-				stmt.close();
+				pstmt.close();
 				conn.close();
 			} catch (SQLException e1) {
 				throw new Error("Failed on closing connection resources. '" + e1);
@@ -111,6 +110,44 @@ public class UserDaoMySQLImpl implements UserDao {
 		}
 			
 		System.out.println(nb + " insert(s)");		
+	}
+
+	@Override
+	public User find(String email) {		
+		String query = "SELECT * FROM persons WHERE email = '" + email + "'";;
+		User user = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			stmt = conn.createStatement();			
+			rs = stmt.executeQuery(query);
+			
+			while ( rs.next() ) {
+				// As 'email' column is UNIQUE, only one User is retrieved
+				user = new User();
+				user.setId( rs.getInt("id") );
+				user.setEmail( rs.getString("email") );
+				user.setFirstName( rs.getString("firstname") );
+				user.setLastName( rs.getString("lastname") );
+				user.setBirthday( LocalDate.parse( rs.getString("birthday") ) );
+			}
+			
+		} catch (Exception e) {
+			
+			try {
+				stmt.close();
+				rs.close();
+				conn.close();
+			} catch (SQLException e1) {
+				throw new Error("Failed on closing connection resources." + e);
+			}			
+			
+			throw new Error("Unable to execute query '" + query + "' : " + e);
+		}
+		
+		return user;
 	}
 
 }

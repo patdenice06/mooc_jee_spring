@@ -76,4 +76,10 @@ public class UserDaoSQLiteImpl implements UserDao {
 
 	}
 
+	@Override
+	public User find(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
