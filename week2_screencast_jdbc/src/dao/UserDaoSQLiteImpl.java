@@ -46,7 +46,7 @@ public class UserDaoSQLiteImpl implements UserDao {
 			while(rs.next() ) {
 				User user = new User();
 				
-				user.setId( rs.getInt("id") );
+				user.setId( (long) rs.getInt("id") );
 				user.setEmail( rs.getString("email") );
 				user.setFirstName( rs.getString("firstname") );
 				user.setLastName( rs.getString("lastname") );

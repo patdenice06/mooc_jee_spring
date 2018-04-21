@@ -1,11 +1,13 @@
 package model;
 
+import java.sql.Timestamp;
 import java.time.*;
 import java.util.Date;
 
 public class User {
 
-	private int id;
+	private Long id;	// good practise for the use of wrapper Long in case of SQL NULL value.
+	private Timestamp dateInscription;
 	private String email;
 	private String firstName;
 	private String lastName;
@@ -15,12 +17,20 @@ public class User {
 	// password should not be in this object ...
 	// private String lastName;
 	
-	public int getId() {
+	public Long getId() {
 		return id;
-	}
-	public void setId(int id) {
+	}	
+	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public Timestamp getDateInscription() {
+		return dateInscription;
+	}	
+	public void setDateInscription(Timestamp dateInscription) {
+		this.dateInscription = dateInscription;
+	}
+	
 	public String getEmail() { return email; }
 	public void setEmail(String email) { this.email = email; }
 

@@ -45,7 +45,7 @@ public class UserDaoMySQLImpl implements UserDao {
 			while(rs.next() ) {
 				User user = new User();
 				
-				user.setId( rs.getInt("id") );
+				user.setId( (long) rs.getInt("id") );
 				user.setEmail( rs.getString("email") );
 				user.setFirstName( rs.getString("firstname") );
 				user.setLastName( rs.getString("lastname") );
@@ -127,7 +127,7 @@ public class UserDaoMySQLImpl implements UserDao {
 			while ( rs.next() ) {
 				// As 'email' column is UNIQUE, only one User is retrieved
 				user = new User();
-				user.setId( rs.getInt("id") );
+				user.setId( (long) rs.getInt("id") );
 				user.setEmail( rs.getString("email") );
 				user.setFirstName( rs.getString("firstname") );
 				user.setLastName( rs.getString("lastname") );
