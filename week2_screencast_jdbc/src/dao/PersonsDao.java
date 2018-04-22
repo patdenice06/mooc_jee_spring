@@ -3,16 +3,19 @@ import java.util.List;
 
 import model.Persons;
 
+/**
+ *	Manage table users.persons 
+ */
 public interface PersonsDao {
 	
 	/*
 	TODO next ...
-	public void update(User user);
-	public void delete(String email);
+	void update(User user) throws DAOException;;
+	void delete(String email) throws DAOException;;
 	*/
 	
-	List<Persons> listAll();
-	void create(Persons user, String password);
-	Persons find(String email);
+	List<Persons> listAll() throws DAOException;;
+	void create(Persons user, String password) throws DAOException;;
+	Persons find(String email) throws DAOException;;
 	
 }
