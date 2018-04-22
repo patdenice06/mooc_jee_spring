@@ -3,38 +3,93 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
 
-import model.User;
+import model.Persons;
 
 /**
  * Use with MySQL JDBC Driver
  */
-public class UserDaoMySQLImpl implements UserDao {
+public class PersonsDaoMySQLImpl implements PersonsDao {
+	
+	private DAOFactory daoFactory;
 	
 	private Connection conn;
 	private String url = "jdbc:mysql://localhost:3306/users";
 	private String dbUser = "patrick";
 	private String dbPassword = "pat123";
 	
-	public UserDaoMySQLImpl( ) {
-		/* Load mysql jdbc driver */
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			throw new Error("Class not found for MySQL JDBC driver. " + e);
-		}
+	// ctor
+	public PersonsDaoMySQLImpl(DAOFactory daoFactory ) {
+		this.daoFactory = daoFactory;
 		
-		// Open a connection with a proper jdbc url				
-		try {
-			conn = DriverManager.getConnection(url, dbUser, dbPassword);
-		} catch (SQLException e) {
-			throw new Error("Failed to connect to the database. " + e);
-		}
+		
+		
+//		/* Load mysql jdbc driver */
+//		try {
+//			Class.forName("com.mysql.jdbc.Driver");
+//		} catch (ClassNotFoundException e) {
+//			throw new Error("Class not found for MySQL JDBC driver. " + e);
+//		}
+//		
+//		// Open a connection with a proper jdbc url				
+//		try {
+//			conn = DriverManager.getConnection(url, dbUser, dbPassword);
+//		} catch (SQLException e) {
+//			throw new Error("Failed to connect to the database. " + e);
+//		}
 	}
+	
+	
+	/**
+	 * Utility method to initiate the PreparedStatement from database connexion, sql query and given objects args
+	 * @param connection Databse connection
+	 * @param sql	SQL query
+	 * @param returnGeneratedKeys Returns or not a GENERATED_KEYS
+	 * @param objets	SQL query parameters of differents types and sizes
+	 * @return	a PreparedStatement
+	 * @throws SQLException
+	 */
+	public static PreparedStatement initPreparedStatement( 
+			Connection connection,
+			String sql,
+			boolean returnGeneratedKeys,
+			Object... objets) throws SQLException {
+		 
+		PreparedStatement preparedStatement =
+				connection.prepareStatement( sql, returnGeneratedKeys ?
+				Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS );
+		
+		for ( int i = 0; i < objets.length; i++ ) {
+			preparedStatement.setObject( i + 1, objets[i] );
+		}
+				
+		return preparedStatement;
+	}
+	
+	
+	/**
+	 * Utility method to map a row in users.persons and a Persons bean
+	 * @param rs A ResultSet cursor
+	 * @return	A Persons bean
+	 * @throws SQLException
+	 */
+	@SuppressWarnings("unused")
+	private static Persons map( ResultSet rs ) throws SQLException {
+		Persons person = new Persons();
+		person.setId( rs.getLong( "id" ) );
+		person.setRegisterDate( rs.getTimestamp( "registerDate" ) );
+		person.setEmail( rs.getString( "email" ) );
+		person.setFirstName( rs.getString( "firstName" ) );
+		person.setLastName( rs.getString( "lastName" ) );
+		person.setBirthday( LocalDate.parse( rs.getString("birthday") ) );
+		
+		return person;
+	}	
+	
 
-	public List<User> listAll() {
+	public List<Persons> listAll() throws DAOException {
 		// get all users and assigned each to a list
 		String query = "select * from persons";
-		List<User> res = new ArrayList<>();
+		List<Persons> res = new ArrayList<>();
 		Statement stm = null;
 		ResultSet rs = null;
 		
@@ -43,7 +98,7 @@ public class UserDaoMySQLImpl implements UserDao {
 			rs = stm.executeQuery(query);
 			
 			while(rs.next() ) {
-				User user = new User();
+				Persons user = new Persons();
 				
 				user.setId( (long) rs.getInt("id") );
 				user.setEmail( rs.getString("email") );
@@ -74,7 +129,7 @@ public class UserDaoMySQLImpl implements UserDao {
 	/**
 	 * Create a new User
 	 */
-	public void create(User user, String password) {
+	public void create(Persons user, String password) throws DAOException {
 		PreparedStatement pstmt = null;
 		String query = null;
 		int nb = 0;
@@ -113,9 +168,9 @@ public class UserDaoMySQLImpl implements UserDao {
 	}
 
 	@Override
-	public User find(String email) {		
+	public Persons find(String email) throws DAOException {		
 		String query = "SELECT * FROM persons WHERE email = '" + email + "'";;
-		User user = null;
+		Persons user = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		
@@ -126,7 +181,7 @@ public class UserDaoMySQLImpl implements UserDao {
 			
 			while ( rs.next() ) {
 				// As 'email' column is UNIQUE, only one User is retrieved
-				user = new User();
+				user = new Persons();
 				user.setId( (long) rs.getInt("id") );
 				user.setEmail( rs.getString("email") );
 				user.setFirstName( rs.getString("firstname") );
