@@ -85,7 +85,92 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 		return person;
 	}	
 	
-
+	
+	/*************************************************************/
+	/* Utility methods to properly closed any database resources */
+	/*************************************************************/
+	
+	/**
+	 * Quiet closure of the resultset
+	 * @param resultSet
+	 */
+	public static void quietClosure( ResultSet resultSet ) {
+		if ( resultSet != null ) {
+			try { 
+				
+			resultSet.close();
+			
+			} catch ( SQLException e ) {
+				System.out.println( "Échec de la fermeture du ResultSet: " + e.getMessage() );
+			}
+		}
+	}
+	
+	/**
+	 * Quiet closure of the statement
+	 * @param statement
+	 */
+	public static void quietClosure( Statement statement ) {
+		if ( statement != null ) {
+			try {
+				
+			statement.close();
+			
+			} catch ( SQLException e ) {
+			System.out.println( "Échec de la fermeture du Statement: " + e.getMessage() );
+			}
+		}
+	}
+	
+	
+	/**
+	 * Quiet closure of the connection
+	 * @param connexion
+	 */
+	public static void quietClosure( Connection connexion ) {
+		if ( connexion != null ) {
+			try {
+				
+			connexion.close();
+			
+			} catch ( SQLException e ) {
+			System.out.println( "Échec de la fermeture de la connexion : " + e.getMessage() );
+			}
+		}
+	}
+	
+	
+	/**
+	 * Quiet closure of the statement and the connexion  
+	 * @param statement
+	 * @param connexion
+	 */
+	public static void quietClosure( Statement statement, Connection connexion ) {
+		quietClosure( statement );
+		quietClosure( connexion );
+	}
+	
+	
+	/* Fermetures silencieuses du resultset, du statement et de la
+	connexion */
+	/**
+	 * Quiet closure of the resultSet, the statement and the connection
+	 * @param resultSet
+	 * @param statement
+	 * @param connexion
+	 */
+	public static void quietClosure( ResultSet resultSet, Statement statement, Connection connexion ) {
+		quietClosure( resultSet );
+		quietClosure( statement );
+		quietClosure( connexion );
+	}	
+	
+	
+	
+	/*********************************/
+	/* Interface implemented methods */
+	/*********************************/
+	
 	public List<Persons> listAll() throws DAOException {
 		// get all users and assigned each to a list
 		String query = "select * from persons";
