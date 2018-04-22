@@ -1,9 +1,9 @@
 package dao;
 import java.util.List;
 
-import model.User;
+import model.Persons;
 
-public interface UserDao {
+public interface PersonsDao {
 	
 	/*
 	TODO next ...
@@ -11,8 +11,8 @@ public interface UserDao {
 	public void delete(String email);
 	*/
 	
-	public List<User> listAll();
-	public void create(User user, String password);
-	public User find(String email);
+	List<Persons> listAll();
+	void create(Persons user, String password);
+	Persons find(String email);
 	
 }
