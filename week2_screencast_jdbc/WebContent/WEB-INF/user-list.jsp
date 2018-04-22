@@ -2,9 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>    
 <%@ page import="java.time.*" %>
-<%@	page import="model.User" %>
+<%@	page import="model.Persons" %>
 
-<% List<User> users = (List<User>) request.getAttribute("persons"); %>
+<%
+	List<Persons> persons = (List<Persons>) request.getAttribute("persons");
+%>
    
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +19,7 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>Users list</title>
+    <title>Persons list</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -38,7 +40,7 @@
 			<div class="panel-body">
 				<p>
 					<!-- Show count of persons -->
-					<%=users.size() %> users
+					<%=persons.size()%> users
 				</p>
 			</div>
 							
@@ -54,14 +56,16 @@
 				</tr>
 				
 				<!-- Iterate through users -->	
-				<% for (User user : users) { %>
+				<%
+						for (Persons person : persons) {
+					%>
 					<tr>
-						<td><%=user.getId() %></td>
-						<td><%=user.getEmail() %></td>
-						<td><%=user.getFirstName() %></td>
-						<td><%=user.getLastName() %></td>
-						<td><%=user.getBirthday() %></td>
-						<td><%=user.getAge() %></td>
+						<td><%=person.getId() %></td>
+						<td><%=person.getEmail() %></td>
+						<td><%=person.getFirstName() %></td>
+						<td><%=person.getLastName() %></td>
+						<td><%=person.getBirthday() %></td>
+						<td><%=person.getAge() %></td>
 					</tr>
 				<% } %>
 			</table>		
