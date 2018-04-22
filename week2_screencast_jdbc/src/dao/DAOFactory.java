@@ -85,8 +85,9 @@ public class DAOFactory {
 	}
 	
 	
-	public UserDao getUserDao() {
-		return new UserDaoMySQLImpl( this );
+	public PersonsDao getPersonsDao() {
+		return null;
+//		return new PersonsDaoMySQLImpl( this );
 		}	
 	
 	
