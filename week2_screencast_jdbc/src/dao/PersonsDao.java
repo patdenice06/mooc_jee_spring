@@ -15,7 +15,13 @@ public interface PersonsDao {
 	*/
 	
 	List<Persons> listAll() throws DAOException;;
-	void create(Persons user, String password) throws DAOException;;
+	void create(Persons user, String password) throws DAOException;
+	/**
+	 * Retrieve a person in users.persons by its email
+	 * @param email
+	 * @return A person
+	 * @throws DAOException
+	 */
 	Persons find(String email) throws DAOException;;
 	
 }
