@@ -4,10 +4,10 @@ import java.sql.Timestamp;
 import java.time.*;
 import java.util.Date;
 
-public class User {
+public class Persons {
 
 	private Long id;	// good practise for the use of wrapper Long in case of SQL NULL value.
-	private Timestamp dateInscription;
+	private Timestamp registerDate;
 	private String email;
 	private String firstName;
 	private String lastName;
@@ -24,11 +24,11 @@ public class User {
 		this.id = id;
 	}
 	
-	public Timestamp getDateInscription() {
-		return dateInscription;
+	public Timestamp getRegisterDate() {
+		return registerDate;
 	}	
-	public void setDateInscription(Timestamp dateInscription) {
-		this.dateInscription = dateInscription;
+	public void setRegisterDate(Timestamp registerDate) {
+		this.registerDate = registerDate;
 	}
 	
 	public String getEmail() { return email; }
@@ -64,7 +64,6 @@ public class User {
 			
 		
 		return 
-//			Period.between( birthDate, today )
 			Period.between( birthday, today )
 			.getYears();
 	}
