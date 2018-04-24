@@ -4,66 +4,26 @@ import java.time.LocalDate;
 import java.util.*;
 
 import model.Persons;
+import static dao.DAOUtility.*;	// to call utility methods as if they belong to this class 
 
 /**
  * Use with MySQL JDBC Driver
  */
 public class PersonsDaoMySQLImpl implements PersonsDao {
 	
-	private DAOFactory daoFactory;
-	
-	private Connection conn;
-	private String url = "jdbc:mysql://localhost:3306/users";
-	private String dbUser = "patrick";
-	private String dbPassword = "pat123";
+	private DAOFactory	daoFactory;
+	private static final String SQL_SELECT_BY_EMAIL = "SELECT id, registerDate, email, firstName, lastName, birthday FROM Utilisateur WHERE email = ?";	
 	
 	// ctor
 	public PersonsDaoMySQLImpl(DAOFactory daoFactory ) {
 		this.daoFactory = daoFactory;
-		
-		
-		
-//		/* Load mysql jdbc driver */
-//		try {
-//			Class.forName("com.mysql.jdbc.Driver");
-//		} catch (ClassNotFoundException e) {
-//			throw new Error("Class not found for MySQL JDBC driver. " + e);
-//		}
-//		
-//		// Open a connection with a proper jdbc url				
-//		try {
-//			conn = DriverManager.getConnection(url, dbUser, dbPassword);
-//		} catch (SQLException e) {
-//			throw new Error("Failed to connect to the database. " + e);
-//		}
 	}
 	
 	
-	/**
-	 * Utility method to initiate the PreparedStatement from database connexion, sql query and given objects args
-	 * @param connection Databse connection
-	 * @param sql	SQL query
-	 * @param returnGeneratedKeys Returns or not a GENERATED_KEYS
-	 * @param objets	SQL query parameters of differents types and sizes
-	 * @return	a PreparedStatement
-	 * @throws SQLException
-	 */
-	public static PreparedStatement initPreparedStatement( 
-			Connection connection,
-			String sql,
-			boolean returnGeneratedKeys,
-			Object... objets) throws SQLException {
-		 
-		PreparedStatement preparedStatement =
-				connection.prepareStatement( sql, returnGeneratedKeys ?
-				Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS );
-		
-		for ( int i = 0; i < objets.length; i++ ) {
-			preparedStatement.setObject( i + 1, objets[i] );
-		}
-				
-		return preparedStatement;
-	}
+	
+	
+	
+
 	
 	
 	/**
@@ -84,87 +44,6 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 		
 		return person;
 	}	
-	
-	
-	/*************************************************************/
-	/* Utility methods to properly closed any database resources */
-	/*************************************************************/
-	
-	/**
-	 * Quiet closure of the resultset
-	 * @param resultSet
-	 */
-	public static void quietClosure( ResultSet resultSet ) {
-		if ( resultSet != null ) {
-			try { 
-				
-			resultSet.close();
-			
-			} catch ( SQLException e ) {
-				System.out.println( "Échec de la fermeture du ResultSet: " + e.getMessage() );
-			}
-		}
-	}
-	
-	/**
-	 * Quiet closure of the statement
-	 * @param statement
-	 */
-	public static void quietClosure( Statement statement ) {
-		if ( statement != null ) {
-			try {
-				
-			statement.close();
-			
-			} catch ( SQLException e ) {
-			System.out.println( "Échec de la fermeture du Statement: " + e.getMessage() );
-			}
-		}
-	}
-	
-	
-	/**
-	 * Quiet closure of the connection
-	 * @param connexion
-	 */
-	public static void quietClosure( Connection connexion ) {
-		if ( connexion != null ) {
-			try {
-				
-			connexion.close();
-			
-			} catch ( SQLException e ) {
-			System.out.println( "Échec de la fermeture de la connexion : " + e.getMessage() );
-			}
-		}
-	}
-	
-	
-	/**
-	 * Quiet closure of the statement and the connexion  
-	 * @param statement
-	 * @param connexion
-	 */
-	public static void quietClosure( Statement statement, Connection connexion ) {
-		quietClosure( statement );
-		quietClosure( connexion );
-	}
-	
-	
-	/* Fermetures silencieuses du resultset, du statement et de la
-	connexion */
-	/**
-	 * Quiet closure of the resultSet, the statement and the connection
-	 * @param resultSet
-	 * @param statement
-	 * @param connexion
-	 */
-	public static void quietClosure( ResultSet resultSet, Statement statement, Connection connexion ) {
-		quietClosure( resultSet );
-		quietClosure( statement );
-		quietClosure( connexion );
-	}	
-	
 	
 	
 	/*********************************/
@@ -254,40 +133,29 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 
 	@Override
 	public Persons find(String email) throws DAOException {		
-		String query = "SELECT * FROM persons WHERE email = '" + email + "'";;
-		Persons user = null;
-		Statement stmt = null;
-		ResultSet rs = null;
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		Persons person = null;		
 		
 		try {
 			
-			stmt = conn.createStatement();			
-			rs = stmt.executeQuery(query);
+			connection = daoFactory.getConnection();
+			preparedStatement = initPreparedStatement(connection, SQL_SELECT_BY_EMAIL, false, email);
+			resultSet = preparedStatement.executeQuery();
 			
-			while ( rs.next() ) {
-				// As 'email' column is UNIQUE, only one User is retrieved
-				user = new Persons();
-				user.setId( (long) rs.getInt("id") );
-				user.setEmail( rs.getString("email") );
-				user.setFirstName( rs.getString("firstname") );
-				user.setLastName( rs.getString("lastname") );
-				user.setBirthday( LocalDate.parse( rs.getString("birthday") ) );
+			if( resultSet.next() ) {
+				person = map(resultSet);
 			}
 			
-		} catch (Exception e) {
-			
-			try {
-				stmt.close();
-				rs.close();
-				conn.close();
-			} catch (SQLException e1) {
-				throw new Error("Failed on closing connection resources." + e);
-			}			
-			
-			throw new Error("Unable to execute query '" + query + "' : " + e);
+		} catch (SQLException e) {
+			throw new DAOException( e );
+		} finally {
+			quietClosure(resultSet, preparedStatement, connection);
 		}
 		
-		return user;
+		return person;
 	}
 
 }
