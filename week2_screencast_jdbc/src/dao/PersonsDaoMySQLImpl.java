@@ -13,17 +13,13 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 	
 	private DAOFactory	daoFactory;
 	private static final String SQL_SELECT_BY_EMAIL = "SELECT id, registerDate, email, firstName, lastName, birthday FROM Utilisateur WHERE email = ?";	
+//	private static final String SQL_INSERT_NEW_PERSON = "INSERT INTO pesons (NOW(), email, password, firstname, lastname, birthday) VALUES (?, ?, ?, ?, ?)";
+	private static final String SQL_INSERT_NEW_PERSON = "INSERT INTO pesons (email, password, firstname, lastname, birthday) VALUES (?, ?, ?, ?, ?)";
 	
 	// ctor
 	public PersonsDaoMySQLImpl(DAOFactory daoFactory ) {
 		this.daoFactory = daoFactory;
 	}
-	
-	
-	
-	
-	
-
 	
 	
 	/**
@@ -90,47 +86,45 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 	}
 
 	@Override
-	/**
-	 * Create a new User
-	 */
-	public void create(Persons user, String password) throws DAOException {
-		PreparedStatement pstmt = null;
-		String query = null;
-		int nb = 0;
-		try {			
-			StringBuffer sb = new StringBuffer();		
-			sb.append("INSERT INTO persons");
-			sb.append("(email, password, firstname, lastname, birthday) ");
-			sb.append("VALUES ( ");
-			sb.append("?, ?, ?, ?, ?");
-			sb.append(")");
+	public void create(Persons person, String password) throws DAOException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet generatedKeys = null;
+		
+		try {
 			
-			query = sb.toString();
-
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, user.getEmail());
-			pstmt.setString(2, password);
-			pstmt.setString(3, user.getFirstName());
-			pstmt.setString(4, user.getLastName());
-			pstmt.setString(5, user.getBirthday().toString());
-
-			nb = pstmt.executeUpdate();	// number of inserts
+			connection = daoFactory.getConnection();
+			preparedStatement = initPreparedStatement( connection, SQL_INSERT_NEW_PERSON, true,
+													  person.getEmail(),
+													  password,
+													  person.getFirstName(),
+													  person.getLastName(),
+													  person.getBirthday() );
 			
-			} catch (SQLException e) {
-			
-			try {
-				pstmt.close();
-				conn.close();
-			} catch (SQLException e1) {
-				throw new Error("Failed on closing connection resources. '" + e1);
+			int status = preparedStatement.executeUpdate();
+			// Check returned status			
+			System.out.println(status + " insert(s)");
+			if( status == 0 ) {
+				throw new DAOException("Failed to insert a new person. No row added in databaes.");
 			}
 			
-			throw new Error("Unable to execute query '" + query + "' : " + e);
-		}
+			// Get generated key 'id'
+			generatedKeys = preparedStatement.getGeneratedKeys();
+			if( generatedKeys.next() ) {
+				// Init Persons bean property 'id' with its value 
+				person.setId( generatedKeys.getLong( 1 ) );
+			}else {
+				throw new DAOException("Failed to insert a new Person in database. No generated ID returned.");
+			}
 			
-		System.out.println(nb + " insert(s)");		
+		} catch (SQLException e) {
+			throw new DAOException("Failed to create a new person. ", e);
+		}finally {
+			quietClosure(preparedStatement, connection);
+		}		
 	}
 
+	
 	@Override
 	public Persons find(String email) throws DAOException {		
 		
@@ -150,7 +144,7 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 			}
 			
 		} catch (SQLException e) {
-			throw new DAOException( e );
+			throw new DAOException("Failed to find a person by email. ",  e );
 		} finally {
 			quietClosure(resultSet, preparedStatement, connection);
 		}
