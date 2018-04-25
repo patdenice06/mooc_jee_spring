@@ -15,9 +15,15 @@ public interface PersonsDao {
 	*/
 	
 	List<Persons> listAll() throws DAOException;;
+	/**
+	 * Create a new person in database
+	 * @param user
+	 * @param password
+	 * @throws DAOException
+	 */
 	void create(Persons user, String password) throws DAOException;
 	/**
-	 * Retrieve a person in users.persons by its email
+	 * Retrieve a person in database by its email
 	 * @param email
 	 * @return A person
 	 * @throws DAOException
