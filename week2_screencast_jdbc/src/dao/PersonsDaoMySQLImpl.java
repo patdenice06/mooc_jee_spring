@@ -12,9 +12,10 @@ import static dao.DAOUtility.*;	// to call utility methods as if they belong to 
 public class PersonsDaoMySQLImpl implements PersonsDao {
 	
 	private DAOFactory	daoFactory;
+	// SQL queries
+	private static final String SQL_SELECT_ALL = "SELECT * from persons";
 	private static final String SQL_SELECT_BY_EMAIL = "SELECT id, registerDate, email, firstName, lastName, birthday FROM Utilisateur WHERE email = ?";	
-//	private static final String SQL_INSERT_NEW_PERSON = "INSERT INTO pesons (NOW(), email, password, firstname, lastname, birthday) VALUES (?, ?, ?, ?, ?)";
-	private static final String SQL_INSERT_NEW_PERSON = "INSERT INTO pesons (email, password, firstname, lastname, birthday) VALUES (?, ?, ?, ?, ?)";
+	private static final String SQL_INSERT_NEW_PERSON = "INSERT INTO pesons (NOW(), email, password, firstname, lastname, birthday) VALUES (?, ?, ?, ?, ?)";
 	
 	// ctor
 	public PersonsDaoMySQLImpl(DAOFactory daoFactory ) {
@@ -28,7 +29,6 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 	 * @return	A Persons bean
 	 * @throws SQLException
 	 */
-	@SuppressWarnings("unused")
 	private static Persons map( ResultSet rs ) throws SQLException {
 		Persons person = new Persons();
 		person.setId( rs.getLong( "id" ) );
@@ -42,48 +42,36 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 	}	
 	
 	
-	/*********************************/
-	/* Interface implemented methods */
-	/*********************************/
+	/*************************************/
+	/* DAO Interface implemented methods */
+	/*************************************/
 	
 	public List<Persons> listAll() throws DAOException {
 		// get all users and assigned each to a list
-		String query = "select * from persons";
-		List<Persons> res = new ArrayList<>();
-		Statement stm = null;
-		ResultSet rs = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<Persons> listPersons = new ArrayList<>();		
 		
 		try {
-			stm = conn.createStatement();
-			rs = stm.executeQuery(query);
 			
-			while(rs.next() ) {
-				Persons user = new Persons();
-				
-				user.setId( (long) rs.getInt("id") );
-				user.setEmail( rs.getString("email") );
-				user.setFirstName( rs.getString("firstname") );
-				user.setLastName( rs.getString("lastname") );
-				user.setBirthday( LocalDate.parse( rs.getString("birthday") ) );
-				
-				res.add(user);
-			}			
-		} catch (Exception e) {
+			connection = daoFactory.getConnection();
+			preparedStatement = initPreparedStatement(connection, SQL_SELECT_ALL, true);
+			resultSet = preparedStatement.executeQuery();
 			
-			try {
-				stm.close();
-				rs.close();
-				conn.close();
-			} catch (SQLException e1) {
-				throw new Error("Failed on closing connection resources." + e);
+			if( resultSet.next() ) {
+				listPersons.add( map(resultSet) );
 			}
 			
-			throw new Error("Unable to execute query '" + query + "' : " + e);
+		} catch (SQLException e) {
+			throw new DAOException("Failed to select all persons in database. ",  e );
+		} finally {
+			quietClosure(resultSet, preparedStatement, connection);
 		}
 		
-		return res;
-
+		return listPersons;		
 	}
+	
 
 	@Override
 	public void create(Persons person, String password) throws DAOException {
