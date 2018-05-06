@@ -12,7 +12,7 @@ import java.util.Properties;
  */
 public class DAOFactory {
 
-	private static final String PROPERTIES_FILE = "/WEB-INF/dao.properties";
+	private static final String PROPERTIES_FILE = "/dao/dao.properties";
 	private static final String PROPERTY_URL = "url";
 	private static final String PROPERTY_DRIVER = "driver";
 	private static final String PROPERTY_USER_NAME = "username";
@@ -33,19 +33,18 @@ public class DAOFactory {
 	 * @return An instance of DAOFactory	 
 	 */
 	public static DAOFactory getInstance() throws DAOConfigurationException{
+		System.out.println("DAOFactory.getInstance()");
 		Properties properties = new Properties();
 		String url;
 		String driver;
 		String userName;
 		String password;
 		
-		ClassLoader classLoader =
-				Thread.currentThread().getContextClassLoader();
-				InputStream propertiesFile =
-				classLoader.getResourceAsStream( PROPERTIES_FILE );
-				
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();		
+		InputStream propertiesFile = classLoader.getResourceAsStream( PROPERTIES_FILE );
+		
 		if ( propertiesFile == null ) {
-			throw new DAOConfigurationException( "Properties file " + PROPERTIES_FILE + " not found." );
+			throw new DAOConfigurationException( "Properties file: " + PROPERTIES_FILE + " not found." );
 		}		
 		
 		try {
@@ -55,6 +54,12 @@ public class DAOFactory {
 			driver = properties.getProperty(PROPERTY_DRIVER);
 			userName = properties.getProperty(PROPERTY_USER_NAME);
 			password = properties.getProperty(PROPERTY_PASSWORD);
+			
+			// DEBUG
+			System.out.println("\turl = " + url);
+			System.out.println("\tdriver = " + driver);
+			System.out.println("\tuserName = " + userName);
+			System.out.println("\tpassword = " + password);
 			
 			
 		} catch (IOException e) {
