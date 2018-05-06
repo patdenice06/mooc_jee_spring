@@ -14,8 +14,8 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 	private DAOFactory	daoFactory;
 	// SQL queries
 	private static final String SQL_SELECT_ALL = "SELECT * from persons";
-	private static final String SQL_SELECT_BY_EMAIL = "SELECT id, registerDate, email, firstName, lastName, birthday FROM Utilisateur WHERE email = ?";	
-	private static final String SQL_INSERT_NEW_PERSON = "INSERT INTO pesons (NOW(), email, password, firstname, lastname, birthday) VALUES (?, ?, ?, ?, ?)";
+	private static final String SQL_SELECT_BY_EMAIL = "SELECT id, registerDate, email, firstName, lastName, birthday FROM persons WHERE email = ?";	
+	private static final String SQL_INSERT_NEW_PERSON = "INSERT INTO persons (email, password, firstname, lastname, birthday) VALUES (?, ?, ?, ?, ?)";
 	
 	// ctor
 	public PersonsDaoMySQLImpl(DAOFactory daoFactory ) {
@@ -132,12 +132,26 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 			}
 			
 		} catch (SQLException e) {
-			throw new DAOException("Failed to find a person by email. ",  e );
+			throw new DAOException("Failed to find a person by its email. ",  e );
 		} finally {
 			quietClosure(resultSet, preparedStatement, connection);
 		}
 		
 		return person;
+	}
+
+
+	@Override
+	public void update(Persons peron) throws DAOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void delete(String email) throws DAOException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
