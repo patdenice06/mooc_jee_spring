@@ -1,25 +1,17 @@
-package controller;
+package servlets;
 import javax.servlet.http.*;
 
-import dao.UserDao;
-import dao.UserDaoMySQLImpl;
-
+import dao.PersonsDao;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 
 @WebServlet(urlPatterns={"/userslist"})
-public class UserServlet extends HttpServlet {
+public class User extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
-	UserDao dao;
-
-	@Override
-	public void init() throws ServletException {
-		System.out.println("UserServlet.init()");
-		dao = new UserDaoMySQLImpl();
-	}
+	PersonsDao dao;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {	
