@@ -1,4 +1,4 @@
-package controller;
+package servlets;
 
 import java.io.IOException;
 import javax.servlet.ServletConfig;
@@ -9,22 +9,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.DAOFactory;
+import dao.PersonsDao;
+import dao.PersonsDaoMySQLImpl;
 
 /**
  * Find a user in table users.persons
  */
 @WebServlet("/find-user")
-public class FindUserServlet extends HttpServlet {
+public class FindUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    DAOFactory daoFactory;   
+    private DAOFactory daoFactory = null;
+    private PersonsDao personsDao = null;
 	
-    public FindUserServlet() {
+    public FindUser() {
         super();
     }
 
 	public void init(ServletConfig config) throws ServletException {
 		System.out.println("FindUserServlet.init()");
-		daoFactory = DAOFactory.getInstance();		
+		this.daoFactory = DAOFactory.getInstance();
+		this.personsDao = new PersonsDaoMySQLImpl(daoFactory);
+		
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
