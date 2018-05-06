@@ -4,6 +4,9 @@ import java.sql.Timestamp;
 import java.time.*;
 import java.util.Date;
 
+/**
+ * Bean object for users.persons table
+ */
 public class Persons {
 
 	private Long id;	// good practise for the use of wrapper Long in case of SQL NULL value.
