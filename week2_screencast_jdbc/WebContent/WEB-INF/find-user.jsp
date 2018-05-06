@@ -24,7 +24,22 @@
 <body>
 
     <div class="container">    
-    	
+    	<form method="post"  class="form-signin" action="find-user">
+	        <h2 class="form-signin-heading">
+			<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+			Find a person by its email</h2>	        
+			<label for="inputEmail" class="sr-only">
+			Email address</label>
+	        <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+			<div class="checkbox">
+	          <label>
+	            <input type="checkbox" value="remember-me"> 
+				Remember me
+	          </label>
+	        </div>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">
+			Find</button>    		
+    	</form>
     </div> <!-- /container -->
 	
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
