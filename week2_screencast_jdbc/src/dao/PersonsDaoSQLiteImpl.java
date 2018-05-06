@@ -3,20 +3,20 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
 
-import model.User;
+import model.Persons;
 
 /**
  * Use with SQLite JDBC Driver
  */
 
-public class UserDaoSQLiteImpl implements UserDao {
+public class PersonsDaoSQLiteImpl implements PersonsDao {
 	
 	private Connection conn;
 	private String url = "jdbc:mysql://localhost:3306/users";
 	private String dbUser = "patrick";
 	private String dbPassword = "pat123";
 	
-	public UserDaoSQLiteImpl( ) {
+	public PersonsDaoSQLiteImpl( ) {
 		/* Load mysql jdbc driver */
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -32,10 +32,10 @@ public class UserDaoSQLiteImpl implements UserDao {
 		}
 	}
 
-	public List<User> listAll() {
+	public List<Persons> listAll() {
 		// get all users and assigned each to a list
 		String query = "select * from persons";
-		List<User> res = new ArrayList<>();
+		List<Persons> res = new ArrayList<>();
 		Statement stm = null;
 		ResultSet rs = null;
 		
@@ -44,7 +44,7 @@ public class UserDaoSQLiteImpl implements UserDao {
 			rs = stm.executeQuery(query);
 			
 			while(rs.next() ) {
-				User user = new User();
+				Persons user = new Persons();
 				
 				user.setId( (long) rs.getInt("id") );
 				user.setEmail( rs.getString("email") );
@@ -72,14 +72,26 @@ public class UserDaoSQLiteImpl implements UserDao {
 	}
 
 	@Override
-	public void create(User user, String password) {
+	public void create(Persons user, String password) {
 
 	}
 
 	@Override
-	public User find(String email) {
+	public Persons find(String email) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void update(Persons peron) throws DAOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(String email) throws DAOException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
