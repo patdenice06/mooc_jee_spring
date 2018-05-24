@@ -41,34 +41,29 @@ public class Registration extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("RegistrationServlet.doGet()");
-		/* Dispaly registration page */
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );		
 		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {			
-		// récupérer les paramètres saisis dans le formulaire de registration
+		// Get input parameters from registration form
 		
-		/* Prépare registration object */
+		/* Prepare registration object */
 		RegsitrationForm form = new RegsitrationForm( personsDao );
 		
 		/* Use request object to retrieve person bean */
-		Persons person = form.registerPerson( request );
+		Persons person = null;
+		person = form.registerPerson( request );
 		
 		/* Set form and bean in request object */
 		request.setAttribute( ATT_FORM, form );
-		request.setAttribute( ATT_USER, person );		
+		request.setAttribute( ATT_USER, person );
 		
+		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );		
 		
-//		String email = (String) request.getParameter("inputEmail");
-//		String password = (String) request.getParameter("inputPassword");
-//		String firstname = (String) request.getParameter("inputFirstname");
-//		String lastname = (String) request.getParameter("inputLastname");
-//		String  birthday = (String) request.getParameter("inputBirthday");
-		
-		// show new users list
-		request.setAttribute( "persons", personsDao.listAll() );
-		request.getRequestDispatcher("/WEB-INF/user-list.jsp").forward(request, response);		
+		// show new persons list
+//		request.setAttribute( "persons", personsDao.listAll() );
+//		request.getRequestDispatcher("/WEB-INF/user-list.jsp").forward(request, response);		
 
 		
 	}
