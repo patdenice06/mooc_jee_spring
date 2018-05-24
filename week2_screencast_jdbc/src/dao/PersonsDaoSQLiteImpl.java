@@ -94,4 +94,10 @@ public class PersonsDaoSQLiteImpl implements PersonsDao {
 		
 	}
 
+	@Override
+	public void create(Persons person) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
