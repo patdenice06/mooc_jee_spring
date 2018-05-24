@@ -5,9 +5,25 @@
 	id="WebApp_ID" version="3.1">
 	<display-name>Test</display-name>
 
+  <!-- ==================== Default Session Configuration ================= -->
+  <!-- You can set the default session timeout (in minutes) for all newly   -->
+  <!-- created sessions by modifying the value below.                       -->
+  
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+
 	<listener>
 		<!-- Instanciate once the DAOFactory for the scope of the web app -->
 		<listener-class>config.InitDaoFactory</listener-class>
 	</listener>
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
 
 </web-app>
