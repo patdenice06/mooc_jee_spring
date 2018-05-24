@@ -16,7 +16,14 @@ public interface PersonsDao {
 	 */
 	void create(Persons person, String password) throws DAOException;
 	
+/**
+ * CREATE a new Person in database
+ * @param person
+ * @throws DAOException
+ */
+	void create(Persons person) throws DAOException;
 
+	
 	/**
 	 * UPDATE a Person row
 	 * @param perons
@@ -45,9 +52,6 @@ public interface PersonsDao {
 	 * @param email
 	 * @throws DAOException
 	 */
-	void delete(String email) throws DAOException;;
-	
-	
-	
-	
+	void delete(String email) throws DAOException;
+
 }
