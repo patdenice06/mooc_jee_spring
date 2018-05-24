@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.Date" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,6 +24,9 @@
   </head>
 
   <body>
+  
+   	<c:set var = "form" scope="page"  value='<%= request.getAttribute("ATT_FORM")%>'></c:set> 
+   	<c:set var = "user" scope="page"  value='<%= request.getAttribute("ATT_USER")%>'></c:set> 
 
     <div class="container">
 
@@ -33,12 +37,38 @@
         
 		<label for="inputEmail" class="sr-only">
 		Email address</label>
-        <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-        
+		<c:choose>
+			<c:when test="${ empty user.email }">
+			       <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+			</c:when>
+			<c:otherwise>
+			       <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="<c:out value="${ user.email }"></c:out>" required autofocus>
+			</c:otherwise>
+		</c:choose>`	
+		<c:if test="${ !empty form.errors.inputEmail  }">
+			<p class="text-danger"><c:out value="${ form.errors.inputEmail }"></c:out></p>	
+		</c:if>	        
+          
+                  
 		<label for="inputPassword" class="sr-only">
 		Password</label>
+		<small id="passwordHelpBlock" class="form-text text-muted">
+		  Your password must contains at least 6 characters long.
+		</small>        
         <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
+		<c:if test="${ !empty form.errors.inputPassword  }">
+			<p class="text-danger"><c:out value="${ form.errors.inputPassword }"></c:out></p>	
+		</c:if>	        
         
+
+		<label for="inputConfirmPassword" class="sr-only">
+		Confirm password</label>
+        <input type="password" name="inputConfirmPassword" id="inputConfirmPassword" class="form-control" placeholder="Confirm password" required>
+		<c:if test="${ !empty form.errors.inputConfirmPassword  }">
+			<p class="text-danger"><c:out value="${ form.errors.inputConfirmPassword }"></c:out></p>	
+		</c:if>	        
+
+
 		<label for="inputFirstname" class="sr-only">
 		Firstname</label>
         <input type="text" name="inputFirstname" id="inputFirstname" class="form-control" placeholder="Firstname" required>
@@ -47,13 +77,11 @@
 		Lastname</label>
         <input type="text"  name="inputLastname" id="inputLastname" class="form-control" placeholder="Lastname" required>
 
-<!-- 		<label for="inputBirthday" class="sr-only">
-		Birthday</label>
- -->
- 		<label for="inputBirthday">
-		Birthday</label>
-		
-<!--         <input type="text" name="inputBirthday" id="inputBirthday" class="form-control date" placeholder="yyyy-mm-dd" required> -->
+ 		<small id="birthdayHelpBlock" class="form-text text-muted">
+		  <b>Birthday</b>
+		</small>         		
+ 		<label for="inputBirthday" class="sr-only">
+		Birthday</label>		
         <input type="date" name="inputBirthday" id="inputBirthday" class="form-control date" required>
         
 		<div class="checkbox">
@@ -66,6 +94,14 @@
 		Register</button>
       </form>
 
+		  <!-- Registration status messages -->
+	  <c:if test="${ empty form.errors }">
+	    <p class="text-success"><c:out value="${form.result}"></c:out></p>
+	  </c:if>
+	  <c:if test="${ !empty form.errors }">
+      	<p class="text-danger"><c:out value="${form.result}"></c:out></p>  
+	  </c:if>
+		
     </div> <!-- /container -->
 
 
