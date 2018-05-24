@@ -93,7 +93,7 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 			// Check returned status			
 			System.out.println(status + " insert(s)");
 			if( status == 0 ) {
-				throw new DAOException("Failed to insert a new person. No row added in databaes.");
+				throw new DAOException("Failed to insert a new person. No row added in database.");
 			}
 			
 			// Get generated key 'id'
@@ -152,6 +152,46 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 	public void delete(String email) throws DAOException {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public void create(Persons person) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet generatedKeys = null;
+		
+		try {
+			
+			connection = daoFactory.getConnection();
+			preparedStatement = initPreparedStatement( connection, SQL_INSERT_NEW_PERSON, true,
+													  person.getEmail(),
+													  person.getCryptedPassword(),
+													  person.getFirstName(),
+													  person.getLastName(),
+													  person.getBirthday() );
+			
+			int status = preparedStatement.executeUpdate();
+			// Check returned status			
+			System.out.println(status + " insert(s)");
+			if( status == 0 ) {
+				throw new DAOException("Failed to insert a new person. No row added in database.");
+			}
+			
+			// Get generated key 'id'
+			generatedKeys = preparedStatement.getGeneratedKeys();
+			if( generatedKeys.next() ) {
+				// Init Persons bean property 'id' with its value 
+				person.setId( generatedKeys.getLong( 1 ) );
+			}else {
+				throw new DAOException("Failed to insert a new Person in database. No generated ID returned.");
+			}
+			
+		} catch (SQLException e) {
+			throw new DAOException("Failed to create a new person. ", e);
+		}finally {
+			quietClosure(preparedStatement, connection);
+		}		
 	}
 
 }
