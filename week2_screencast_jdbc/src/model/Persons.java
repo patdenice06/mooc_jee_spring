@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.*;
 import java.util.Date;
@@ -7,14 +8,16 @@ import java.util.Date;
 /**
  * Bean object for users.persons table
  */
-public class Persons {
+public class Persons implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private Long id;	// good practise for the use of wrapper Long in case of SQL NULL value.
 	private Timestamp registerDate;
 	private String email;
 	private String firstName;
 	private String lastName;
 	private LocalDate birthday;
+	private String cryptedPassword;
 	
 
 	// password should not be in this object ...
@@ -64,11 +67,17 @@ public class Persons {
 //		LocalDate birthDate =
 //				birthday.at
 		
-			
-		
 		return 
 			Period.between( birthday, today )
 			.getYears();
 	}
-		
+	
+	public String getCryptedPassword() {
+		return cryptedPassword;
+	}
+	
+	public void setCryptedPassword(String cryptedPassword) {
+		this.cryptedPassword = cryptedPassword;
+	}
+	
 }
