@@ -21,6 +21,8 @@
 
     <!-- Custom styles for this template -->
     <link href="css/signin.css" rel="stylesheet">
+  </head>
+  
 <body>
 
     <div class="container">    
