@@ -46,8 +46,10 @@
 							
 			<!-- Table -->
 			<table class ="table">
+			<caption>List of users</caption>
 				<tr>
 					<th>id</th>
+					<th>registerDate</th>
 					<th>email</th>
 					<th>firstname</th>
 					<th>lastname</th>
@@ -61,6 +63,7 @@
 					%>
 					<tr>
 						<td><%=person.getId() %></td>
+						<td><%=person.getRegisterDate() %></td>
 						<td><%=person.getEmail() %></td>
 						<td><%=person.getFirstName() %></td>
 						<td><%=person.getLastName() %></td>
