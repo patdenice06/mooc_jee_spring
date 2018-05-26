@@ -59,8 +59,8 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 			preparedStatement = initPreparedStatement(connection, SQL_SELECT_ALL, true);
 			resultSet = preparedStatement.executeQuery();
 			
-			if( resultSet.next() ) {
-				listPersons.add( map(resultSet) );
+			while ( resultSet.next() ) {
+				listPersons.add( map(resultSet) );				
 			}
 			
 		} catch (SQLException e) {
