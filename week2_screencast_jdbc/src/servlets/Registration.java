@@ -19,7 +19,6 @@ import dao.DAOFactory;
 public class Registration extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-//	public static final String CONF_DAO_FACTORY = "daofactory";	// not config.initDaoFactory.ATT_DAO_FACTORY ???
 	public static final String ATT_DAO_FACTORY = "daofactory";	
 	public static final String ATT_USER = "user";
 	public static final String ATT_FORM	= "form";
@@ -34,7 +33,6 @@ public class Registration extends HttpServlet {
 	public void init() throws ServletException {
 		System.out.println("UserServlet.init()");
 		/* Get instance of our DAO person */
-//		this.personsDao = ( (DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY) ).getPersonsDao() ;
 		this.personsDao = ( (DAOFactory) getServletContext().getAttribute(ATT_DAO_FACTORY) ).getPersonsDao() ;
 	}
     
