@@ -58,12 +58,6 @@ public class Registration extends HttpServlet {
 		request.setAttribute( ATT_USER, person );
 		
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );		
-		
-		// show new persons list
-//		request.setAttribute( "persons", personsDao.listAll() );
-//		request.getRequestDispatcher("/WEB-INF/user-list.jsp").forward(request, response);		
-
-		
 	}
 
 }
