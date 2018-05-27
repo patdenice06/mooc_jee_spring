@@ -16,22 +16,13 @@ public interface PersonsDao {
 	 */
 	void create(Persons person, String password) throws DAOException;
 	
-/**
- * CREATE a new Person in database
- * @param person
- * @throws DAOException
- */
-	void create(Persons person) throws DAOException;
-
-	
 	/**
-	 * UPDATE a Person row
-	 * @param perons
+	 * CREATE a new Person in database
+	 * @param person
 	 * @throws DAOException
 	 */
-	void update(Persons peron) throws DAOException;;
-	
-	
+	void create(Persons person) throws DAOException;
+
 	/**
 	 * READ all rows in users.persons
 	 * @return List of Persons
@@ -45,8 +36,15 @@ public interface PersonsDao {
 	 * @return A Person
 	 * @throws DAOException
 	 */
-	Persons find(String email) throws DAOException;;
-
+	Persons find(String email) throws DAOException;;		
+	
+	/**
+	 * UPDATE a Person row
+	 * @param perons
+	 * @throws DAOException
+	 */
+	void update(Persons peron) throws DAOException;;
+	
 	/**
 	 * DELETE a Person find by its email
 	 * @param email
