@@ -5,13 +5,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import dao.DAOException;
 import dao.PersonsDao;
 import model.Persons;
 
 public class FindUserForm {
 
 	private PersonsDao personsDao = null;
+	Persons person = null;
 	private String result = null;	
 	private Map<String, String> errors = new HashMap<String, String>();
 	private static final String EMAIL_FIELD = "inputEmail";
@@ -32,28 +32,26 @@ public class FindUserForm {
 	// methods
 	
 	public Persons findPerson(HttpServletRequest request) {
-		System.out.println("FindUserForm.findPerson()");		
-		// Get find-user form input parameter 
+		// Get form input parameter 
 		String email = ( (String) request.getParameter( EMAIL_FIELD ) );
 		
 		// DEBUG
-		System.out.println( EMAIL_FIELD +" = "+  email  );
+		System.out.println("FindUserForm.findPerson()" + EMAIL_FIELD +" = "+  email);
 		
-		Persons person = new Persons();
+		person = new Persons();
 		
-		try {			
-			
-			person = personsDao.find( email );
-			
-		} catch (DAOException e) {
-			result = "Find user failure.";
-			errors.put( EMAIL_FIELD, e.getMessage() );			
-		}
-		
-		// Find user success	
-		result = "Find user success.";
+			if( (person = personsDao.find( email) ) != null ) {
+				System.out.println("FindUserForm.findPerson()" + " Email found.");
+				result = "Find user success.";
+				return person;
+			}
+			else {
+				System.out.println("FindUserForm.findPerson()" + " Email not found.");
+				result = "Find user failure.";
+				errors.put( EMAIL_FIELD, "Email does not exist. Thanks to choose another email." );							
+			}
 		
 		return person;	
 	}
-	
+
 }
