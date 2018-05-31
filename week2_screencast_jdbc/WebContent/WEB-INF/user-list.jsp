@@ -36,17 +36,17 @@
 	<div class = "container">
 		<div class="panel panel-default">
 			<!-- Default panel content -->
-			<div class="panel-heading"> Users list</div>
+			<div class="panel-heading"> User(s) list</div>
 			<div class="panel-body">
 				<p>
 					<!-- Show count of persons -->
-					<%=persons.size()%> users
+					<%=persons.size()%> user(s)
 				</p>
 			</div>
 							
 			<!-- Table -->
 			<table class ="table">
-			<caption>List of users</caption>
+			<caption>List of user(s)</caption>
 				<tr>
 					<th>id</th>
 					<th>registerDate</th>
