@@ -28,12 +28,12 @@ public interface PersonsDao {
 	 * @return List of Persons
 	 * @throws DAOException
 	 */
-	List<Persons> listAll() throws DAOException;;
+	List<Persons> listAll() throws DAOException;
 
 	/**
-	 * READ a Person in users.person by its email
+	 * READ a record in users.persons if found by its email
 	 * @param email
-	 * @return A Person
+	 * @return A person or null
 	 * @throws DAOException
 	 */
 	Persons find(String email) throws DAOException;;		
@@ -51,5 +51,6 @@ public interface PersonsDao {
 	 * @throws DAOException
 	 */
 	void delete(String email) throws DAOException;
+	
 
 }
