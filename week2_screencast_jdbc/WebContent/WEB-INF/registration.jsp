@@ -96,10 +96,11 @@
 
 		  <!-- Registration status messages -->
 	  <c:if test="${ empty form.errors }">
-	    <p class="text-success"><c:out value="${form.result}"></c:out></p>
+	    <p class="text-success"><c:out value="${ form.result }"></c:out></p>
 	  </c:if>
 	  <c:if test="${ !empty form.errors }">
-      	<p class="text-danger"><c:out value="${form.result}"></c:out></p>  
+      	<p class="text-danger"><c:out value="${ form.result }"></c:out></p>  
+      	<p class="text-danger"><c:out value="${ form.errors.inputEmail }"></c:out></p>  
 	  </c:if>
 		
     </div> <!-- /container -->
