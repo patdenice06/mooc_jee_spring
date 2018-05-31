@@ -1,6 +1,9 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +22,7 @@ import model.Persons;
 public class FindUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final String ATT_DAO_FACTORY = "daofactory";	
-	public static final String ATT_USER = "user";
+	public static final String ATT_USER = "persons";
 	public static final String ATT_FORM	= "form";	
 	public static final String VUE = "/WEB-INF/find-user.jsp";
 	public static final String VUE2 = "/WEB-INF/user-list.jsp";
@@ -49,13 +52,17 @@ public class FindUser extends HttpServlet {
 		
 		/* Use request object to retrieve person bean */
 		Persons persons = null;
+		
+		// Create a List<Persons> to allow calling to user-list.jsp				
 		persons = form.findPerson( request );
+		List<Persons> personList = new ArrayList<>(); 			
+		personList.add(persons);		
 		
 		/* Set form and bean in request object */
 		request.setAttribute( ATT_FORM, form );
-		request.setAttribute( ATT_USER, persons );
+		request.setAttribute( ATT_USER, personList );
 				
-		// show the user if found or display an error message
+		// display the user if found or an error message if not found
 		if( persons == null )
 			this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 		else
