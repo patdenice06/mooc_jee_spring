@@ -71,8 +71,8 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 		
 		return listPersons;		
 	}
-	
 
+	
 	@Override
 	public void create(Persons person, String password) throws DAOException {
 		Connection connection = null;
