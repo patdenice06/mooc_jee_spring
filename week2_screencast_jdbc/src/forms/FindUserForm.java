@@ -29,8 +29,7 @@ public class FindUserForm {
 		return errors;
 	}
 
-	// methods
-	
+	// methods	
 	public Persons findPerson(HttpServletRequest request) {
 		// Get form input parameter 
 		String email = ( (String) request.getParameter( EMAIL_FIELD ) );
