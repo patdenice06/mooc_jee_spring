@@ -16,6 +16,7 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 	private static final String SQL_SELECT_ALL = "SELECT * from persons";
 	private static final String SQL_SELECT_BY_EMAIL = "SELECT id, registerDate, email, firstName, lastName, birthday FROM persons WHERE email = ?";	
 	private static final String SQL_INSERT_NEW_PERSON = "INSERT INTO persons (email, password, firstname, lastname, birthday) VALUES (?, ?, ?, ?, ?)";
+	private static final String SQL_DELETE_BY_EMAIL = "DELETE FROM persons WHERE email = ?";
 	
 	// ctor
 	public PersonsDaoMySQLImpl(DAOFactory daoFactory ) {
@@ -142,15 +143,35 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 
 
 	@Override
-	public void update(Persons peron) throws DAOException {
-		// TODO Auto-generated method stub
+	public void update(Persons person) throws DAOException {
+		// TODO Update one record in users.persons by selecting email ???
 		
 	}
 
 
 	@Override
 	public void delete(String email) throws DAOException {
-		// TODO Auto-generated method stub
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		try {
+			
+			connection = daoFactory.getConnection();
+			preparedStatement = initPreparedStatement( connection, SQL_DELETE_BY_EMAIL, false, email );
+			
+			int status = preparedStatement.executeUpdate();
+			// Check returned status			
+			System.out.println(status + " delete");
+			if( status == 0 ) {
+				throw new DAOException("Failed to delete a user.");
+			}
+			
+			
+		} catch (SQLException e) {
+			throw new DAOException("Failed to delete a new user. ", e);
+		}finally {
+			quietClosure(preparedStatement, connection);
+		}		
 		
 	}
 
