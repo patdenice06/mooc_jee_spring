@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 import java.time.*;
 import java.util.Date;
 
+import org.jasypt.util.password.ConfigurablePasswordEncryptor;
+
 /**
  * Bean object for users.persons table
  */
@@ -18,6 +20,8 @@ public class Persons implements Serializable{
 	private String lastName;
 	private LocalDate birthday;
 	private String cryptedPassword;
+	private static final String DIGEST_ALGO = "SHA-256";		
+
 	
 
 	// password should not be in this object ...
@@ -78,6 +82,18 @@ public class Persons implements Serializable{
 	
 	public void setCryptedPassword(String cryptedPassword) {
 		this.cryptedPassword = cryptedPassword;
+	}
+	
+	/**
+	 * Encrypt and set given password with SHA-256 digest algo
+	 * @param password Password to encrypt
+	 */
+	public void encryptPassword(String password) {
+		// TODO Crypt passwod with DIGEST_ALGO = "SHA-256";		
+		ConfigurablePasswordEncryptor passwordEncryptor = new ConfigurablePasswordEncryptor();
+		passwordEncryptor.setAlgorithm( DIGEST_ALGO );
+		passwordEncryptor.setPlainDigest( false );
+		setCryptedPassword( passwordEncryptor.encryptPassword( password) );
 	}
 	
 }
