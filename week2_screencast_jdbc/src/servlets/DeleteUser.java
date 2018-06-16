@@ -47,7 +47,6 @@ public class DeleteUser extends HttpServlet {
 		FindUserForm form = new FindUserForm( personsDao );
 		/* Use request object to retrieve person bean */
 		Persons persons = null;
-		// Create a List<Persons> to allow calling to user-list.jsp				
 		persons = form.findPerson( request );
 		/* Set form in request object */
 		request.setAttribute( ATT_FORM, form );
@@ -57,7 +56,7 @@ public class DeleteUser extends HttpServlet {
 			// email does not exist
 			this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 		else {
-			/* Prepare DeleteUser object */
+			/* Prepare DeleteUserForm object */
 			DeleteUserForm form2 = new DeleteUserForm(personsDao);
 			form2.deletePerson( request );
 			request.setAttribute( ATT_FORM, form2 );			
