@@ -39,11 +39,11 @@ public interface PersonsDao {
 	Persons find(String email) throws DAOException;;		
 	
 	/**
-	 * UPDATE a Person row
-	 * @param perons
+	 * UPDATE Update one or more fields for the person
+	 * @param persons
 	 * @throws DAOException
 	 */
-	void update(Persons peron) throws DAOException;;
+	void update(Persons person) throws DAOException;
 	
 	/**
 	 * DELETE a Person find by its email
