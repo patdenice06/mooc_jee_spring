@@ -14,7 +14,7 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 	private DAOFactory	daoFactory;
 	// SQL queries
 	private static final String SQL_SELECT_ALL = "SELECT * from persons";
-	private static final String SQL_SELECT_BY_EMAIL = "SELECT id, registerDate, email, firstName, lastName, birthday FROM persons WHERE email = ?";	
+	private static final String SQL_SELECT_BY_EMAIL = "SELECT id, registerDate, email, password, firstName, lastName, birthday FROM persons WHERE email = ?";	
 	private static final String SQL_INSERT_NEW_PERSON = "INSERT INTO persons (email, password, firstname, lastname, birthday) VALUES (?, ?, ?, ?, ?)";
 	private static final String SQL_DELETE_BY_EMAIL = "DELETE FROM persons WHERE email = ?";
 	
@@ -34,6 +34,7 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 		Persons person = new Persons();
 		person.setId( rs.getLong( "id" ) );
 		person.setRegisterDate( rs.getTimestamp( "registerDate" ) );
+		person.setCryptedPassword( rs.getString( "password" ) );
 		person.setEmail( rs.getString( "email" ) );
 		person.setFirstName( rs.getString( "firstName" ) );
 		person.setLastName( rs.getString( "lastName" ) );
@@ -144,7 +145,48 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 
 	@Override
 	public void update(Persons person) throws DAOException {
-		// TODO Update one record in users.persons by selecting email ???
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			
+			connection = daoFactory.getConnection();
+			
+			// Prepare dynamically the sql update command with the list of field(s) to update
+			StringBuffer sb = new StringBuffer();
+			sb.append("UPDATE persons SET ");
+			if( !person.getEmail().isEmpty() )
+				sb.append( "email = '" + person.getEmail()+"'" );			
+			if( person.getCryptedPassword() != null )
+				sb.append( ", password = '" + person.getCryptedPassword() + "'" );							
+			if( !person.getFirstName().isEmpty() )
+				sb.append( ", firstName = '" + person.getFirstName() + "'" );			
+			if( !person.getLastName().isEmpty() )
+				sb.append( ", lastName = '" + person.getLastName() + "'" );			
+			if( person.getBirthday() != null )
+				sb.append( ", birthday = '" + person.getBirthday().toString() + "'" );			
+			// id is mandatory
+			sb.append( " WHERE id = '" + new Long( person.getId() ).toString() + "'" );
+			
+			String sql_update = sb.toString();
+			
+			// DEBUG
+			System.out.println("PersonsDaoMySQLImpl.update()" + " sql_update = " + sql_update);
+			
+			preparedStatement = initPreparedStatement( connection, sql_update, false); 
+			
+			int status = preparedStatement.executeUpdate();
+			// Check returned status			
+			System.out.println(status + " update");
+			if( status == 0 ) {
+				throw new DAOException("Failed to update a user.");
+			}			
+			
+		} catch (SQLException e) {
+			throw new DAOException("Failed to update a user. ", e);
+		}finally {
+			quietClosure(preparedStatement, connection);
+		}
 		
 	}
 
