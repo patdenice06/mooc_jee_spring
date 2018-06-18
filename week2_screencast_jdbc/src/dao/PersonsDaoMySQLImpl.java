@@ -152,19 +152,50 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 			
 			connection = daoFactory.getConnection();
 			
-			// Prepare dynamically the sql update command with the list of field(s) to update
+			// Dynamically construct the sql update command with the list of field(s)
 			StringBuffer sb = new StringBuffer();
 			sb.append("UPDATE persons SET ");
-			if( !person.getEmail().isEmpty() )
-				sb.append( "email = '" + person.getEmail()+"'" );			
-			if( person.getCryptedPassword() != null )
-				sb.append( ", password = '" + person.getCryptedPassword() + "'" );							
-			if( !person.getFirstName().isEmpty() )
-				sb.append( ", firstName = '" + person.getFirstName() + "'" );			
-			if( !person.getLastName().isEmpty() )
-				sb.append( ", lastName = '" + person.getLastName() + "'" );			
-			if( person.getBirthday() != null )
-				sb.append( ", birthday = '" + person.getBirthday().toString() + "'" );			
+			int parameterIndex = 0;	// 	Use to set a "," or not before the field name
+			
+			if( !person.getEmail().isEmpty() ) {
+				sb.append( "email = '" + person.getEmail()+"'" );
+				parameterIndex++;
+			}
+			
+			if( person.getCryptedPassword() != null ) {
+				if( parameterIndex > 0 ) 
+					sb.append( ", password = '" + person.getCryptedPassword() + "'" );
+				else {
+					sb.append( " password = '" + person.getCryptedPassword() + "'" );
+					parameterIndex++;
+				}				
+			}
+											
+			if( !person.getFirstName().isEmpty() ) {
+				if( parameterIndex > 0 )
+					sb.append( ", firstName = '" + person.getFirstName() + "'" );
+				else {
+					sb.append( " firstName = '" + person.getFirstName() + "'" );
+					parameterIndex++;
+				}					
+			}							
+			
+			if( !person.getLastName().isEmpty() ) {
+				if( parameterIndex > 0 )
+					sb.append( ", lastName = '" + person.getLastName() + "'" );
+				else {
+					sb.append( " lastName = '" + person.getLastName() + "'" );
+					parameterIndex++;
+				}									
+			}
+			
+			if( person.getBirthday() != null ) {
+				if( parameterIndex > 0 )
+					sb.append( ", birthday = '" + person.getBirthday().toString() + "'" );
+				else
+					sb.append( " birthday = '" + person.getBirthday().toString() + "'" );
+			}
+				
 			// id is mandatory
 			sb.append( " WHERE id = '" + new Long( person.getId() ).toString() + "'" );
 			
@@ -174,7 +205,7 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 			System.out.println("PersonsDaoMySQLImpl.update()" + " sql_update = " + sql_update);
 			
 			preparedStatement = initPreparedStatement( connection, sql_update, false); 
-			
+						
 			int status = preparedStatement.executeUpdate();
 			// Check returned status			
 			System.out.println(status + " update");
