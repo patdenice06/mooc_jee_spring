@@ -55,6 +55,14 @@ public class UpdateUserSelectFields extends HttpServlet {
 		System.out.println( "UpdateUserSelectFields.doPost()" + " - inputLastname = " + request.getParameter("inputLastname") );
 		System.out.println( "UpdateUserSelectFields.doPost()" + " - inputBirthday = " + request.getParameter("inputBirthday") );
 		
+		// TODO Validate new password and new confirm password if any
+		String newPassword = (String) request.getParameter( "inputPassword" );
+		String newConfirmPassword = (String) request.getParameter( "inputConfirmPassword" );
+		// DEBUG
+		System.out.println("UpdateUserSelectFields.doPost()" + " - newPassword = " + newPassword);
+		System.out.println("UpdateUserSelectFields.doPost()" + " - newConfirmPassword = " + newConfirmPassword);
+		
+		
 		/* Prepare UpdateUser object */
 		UpdateUserForm form = new UpdateUserForm( personsDao );
 		form.updatePerson( request );
