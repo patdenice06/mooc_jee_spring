@@ -1,8 +1,6 @@
 package test;
-import java.io.InputStream;
 import java.util.List;
 
-import dao.DAOConfigurationException;
 import dao.DAOFactory;
 import dao.PersonsDao;
 import model.Persons;
@@ -10,14 +8,14 @@ import model.Persons;
 public class PersonsTest {
 		
 	public static void main(String[] args) {
-		final String PROPERTIES_FILE = "WEB-INF/dao.properties";
-
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		InputStream propertiesFile = classLoader.getResourceAsStream( PROPERTIES_FILE );
-				
-		if ( propertiesFile == null ) {
-			throw new DAOConfigurationException( "Properties file: " + PROPERTIES_FILE + " not found." );
-		}
+//		final String PROPERTIES_FILE = "/media/patrick/DATA/edu/j2e-spring/wokspace/week2_screencast_jdbc/src/dao/dao.properties";
+//
+//		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+//		InputStream propertiesFile = classLoader.getResourceAsStream( PROPERTIES_FILE );
+//				
+//		if ( propertiesFile == null ) {
+//			throw new DAOConfigurationException( "Properties file: " + PROPERTIES_FILE + " not found." );
+//		}
 		
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		PersonsDao personsDao = daoFactory.getPersonsDao();
