@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.DAOFactory;
 import dao.PersonsDao;
+import forms.RegistrationForm;
 import forms.UpdateUserForm;
+import model.Persons;
 
 /**
  * Servlet implementation class UpdateUserSelectFields
@@ -21,7 +23,6 @@ public class UpdateUserSelectFields extends HttpServlet {
 //	public static final String ATT_USER = "persons";
 	public static final String ATT_FORM	= "form";	
 	public static final String VUE = "/WEB-INF/update-user-select-fields.jsp";
-//	public static final String VUE2 = "/WEB-INF/update-user-select-fields.jsp";
 	private PersonsDao personsDao;
 	
 	
@@ -45,30 +46,45 @@ public class UpdateUserSelectFields extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("UpdateUserSelectFields.doPost()");
 		
-		// DEBUG
-		System.out.println( "*** ID and new user account settings ***" );
-		System.out.println( "UpdateUserSelectFields.doPost()" + " - id = " + request.getParameter("inputID") );
-		System.out.println( "UpdateUserSelectFields.doPost()" + " - inputEmail = " + request.getParameter("inputEmail") );
-		System.out.println( "UpdateUserSelectFields.doPost()" + " - inputPassword = " + request.getParameter("inputPassword") );
-		System.out.println( "UpdateUserSelectFields.doPost()" + " - inputConfirmPassword = " + request.getParameter("inputConfirmPassword") );
-		System.out.println( "UpdateUserSelectFields.doPost()" + " - inputFirstname = " + request.getParameter("inputFirstname") );
-		System.out.println( "UpdateUserSelectFields.doPost()" + " - inputLastname = " + request.getParameter("inputLastname") );
-		System.out.println( "UpdateUserSelectFields.doPost()" + " - inputBirthday = " + request.getParameter("inputBirthday") );
-		
-		// TODO Validate new password and new confirm password if any
+		// Validate new password and new confirm password if any
 		String newPassword = (String) request.getParameter( "inputPassword" );
 		String newConfirmPassword = (String) request.getParameter( "inputConfirmPassword" );
-		// DEBUG
-		System.out.println("UpdateUserSelectFields.doPost()" + " - newPassword = " + newPassword);
-		System.out.println("UpdateUserSelectFields.doPost()" + " - newConfirmPassword = " + newConfirmPassword);
 		
+		if( !newPassword.isEmpty() ) {
+			/* New password must be validated before updating*/  
+			// DEBUG
+			System.out.println("UpdateUserSelectFields.doPost()" + " - newPassword = " + newPassword);
+			System.out.println("UpdateUserSelectFields.doPost()" + " - newConfirmPassword = " + newConfirmPassword);
+			Persons person = new Persons();
+			RegistrationForm form = new RegistrationForm();
+			form.checkPasswords( newPassword, newConfirmPassword, person );
+			if( !form.getErrors().isEmpty() ) {
+				/* Error on passwords validation */
+				request.setAttribute( ATT_FORM, form );			
+				this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );				
+			}
+			else {
+				/* No error on passwords validation. Prepare UpdateUser object */
+				updateUser( request, response);
+			}			
+		}
+		else {	
+			/* No new password to update. Prepare UpdateUser object */
+			updateUser( request, response );
+		}
 		
-		/* Prepare UpdateUser object */
+	}
+
+
+	private void updateUser( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
 		UpdateUserForm form = new UpdateUserForm( personsDao );
 		form.updatePerson( request );
 		
-		request.setAttribute( ATT_FORM, form );			
+		request.setAttribute( ATT_FORM, form );	
+		request.setAttribute("result", form.getResult());
+		request.setAttribute("errors", form.getErrors());
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );				
+		
 	}
 
 }

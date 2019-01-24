@@ -15,7 +15,6 @@ public class UpdateUserForm {
 	Persons person = null;
 	private String result = null;	
 	private Map<String, String> errors = new HashMap<String, String>();
-	private static final String ID_FIELD = "inputID";
 	private static final String EMAIL_FIELD = "inputEmail";
 	private static final String PASSWORD_FIELD = "inputPassword";
 	private static final String FIRSTNAME_FIELD = "inputFirstname";
@@ -37,8 +36,9 @@ public class UpdateUserForm {
 	
 	// methods
 	public void updatePerson(HttpServletRequest request) {
-		// Get form input parameter 
-		String id = ( (String) request.getParameter( ID_FIELD ) );
+		// Get form input parameter 		
+		Long idLong = ( (Long) request.getSession().getAttribute( "id" ) );
+		String id= idLong.toString();					
 		String email = ( (String) request.getParameter( EMAIL_FIELD ) );
 		String password = ( (String) request.getParameter( PASSWORD_FIELD ) );
 		String firstname = ( (String) request.getParameter( FIRSTNAME_FIELD ) );
@@ -50,8 +50,8 @@ public class UpdateUserForm {
 			birthdayLD = LocalDate.parse( birthday );
 		
 		// DEBUG
-		System.out.println( "UpdateUserForm.updatePerson()" + "*** New user account settings before updating ***");
-		System.out.println( "UpdateUserForm.updatePerson()" + " - " + ID_FIELD +" = "+  id );
+		System.out.println( "*** New user account settings to update ***");
+		System.out.println( "UpdateUserForm.updatePerson()" + " - id  = " +  id );
 		System.out.println( "UpdateUserForm.updatePerson()" + " - " + EMAIL_FIELD +" = "+  email );
 		System.out.println( "UpdateUserForm.updatePerson()" + " - " + PASSWORD_FIELD +" = "+  password );
 		System.out.println( "UpdateUserForm.updatePerson()" + " - " + FIRSTNAME_FIELD +" = "+  firstname );
@@ -78,7 +78,13 @@ public class UpdateUserForm {
 		person.setId( new Long( id ) );
 		
 		// Call update DAO method
-		personsDao.update( person );
+		int status = personsDao.update( person );
+		if(status > 0) {
+			result = "User updated with success.";
+		}
+		else {
+			errors.put(email, ": User update failed");
+		}
 	}
 	
 	

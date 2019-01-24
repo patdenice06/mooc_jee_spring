@@ -41,9 +41,10 @@ public interface PersonsDao {
 	/**
 	 * UPDATE Update one or more fields for the person
 	 * @param persons
+	 * @return 
 	 * @throws DAOException
 	 */
-	void update(Persons person) throws DAOException;
+	int update(Persons person) throws DAOException;
 	
 	/**
 	 * DELETE a Person find by its email

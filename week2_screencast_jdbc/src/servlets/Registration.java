@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.PersonsDao;
-import forms.RegsitrationForm;
+import forms.RegistrationForm;
 import model.Persons;
 import dao.DAOFactory;
 
@@ -47,7 +47,7 @@ public class Registration extends HttpServlet {
 		// Get input parameters from registration form
 		
 		/* Prepare registration object */
-		RegsitrationForm form = new RegsitrationForm( personsDao );
+		RegistrationForm form = new RegistrationForm( personsDao );
 		
 		/* Use request object to retrieve person bean */
 		Persons person = null;

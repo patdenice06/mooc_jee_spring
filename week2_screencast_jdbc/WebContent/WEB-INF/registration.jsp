@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.Date" %>
+<%@include file="header.html" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>

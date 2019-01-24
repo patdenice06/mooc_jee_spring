@@ -83,7 +83,8 @@ public class PersonsDaoSQLiteImpl implements PersonsDao {
 	}
 
 	@Override
-	public void update(Persons peron) throws DAOException {
+	public int update(Persons peron) throws DAOException {
+		return 0;
 		// TODO Auto-generated method stub
 		
 	}

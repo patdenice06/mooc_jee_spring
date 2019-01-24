@@ -62,6 +62,7 @@ public class UpdateUser extends HttpServlet {
 			// Display JSP page that presents the user fields to update
 			
 			// DEBUG
+			System.out.println( "*** Current user account fields ***" );
 			System.out.println( "UpdateUser.doPost()" + " - " + person.getId() );			
 			System.out.println( "UpdateUser.doPost()" + " - " + person.getEmail() );			
 			System.out.println( "UpdateUser.doPost()" + " - " + person.getCryptedPassword() );			
@@ -69,6 +70,8 @@ public class UpdateUser extends HttpServlet {
 			System.out.println( "UpdateUser.doPost()" + " - " + person.getLastName() );			
 			System.out.println( "UpdateUser.doPost()" + " - " + person.getBirthday() );
 			
+			// TODO person.id must be set as a session variable
+			request.getSession().setAttribute("id", person.getId());
 			this.getServletContext().getRequestDispatcher( VUE2 ).forward( request, response );			
 		}
 				

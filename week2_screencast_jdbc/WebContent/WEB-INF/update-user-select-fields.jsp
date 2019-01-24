@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@include file="header.html" %>    
+    
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -27,14 +29,24 @@
   <body>
   
    	<c:set var = "form" scope="page"  value='<%= request.getAttribute("ATT_FORM")%>'></c:set> 
+   	<c:set var = "status" scope="page"  value='<%= request.getAttribute("status")%>'></c:set> 
    	<c:set var = "user" scope="page"  value='<%= request.getAttribute("ATT_USER")%>'></c:set> 
-
+   	<c:set var = "id" scope="session"  value='<%= request.getSession().getAttribute("id")%>'></c:set> 
+	
+	
     <div class="container">
 
       <form method="post"  class="form-signin" action="update-user-select-fields">
       
 		<!-- Set ID person property bean to be used for the SQL update command -->
-		<input type="hidden" name="inputID" id="inputID" value="${ person.id }" class="form-control">      
+		<input type="hidden" name="inputID" id="inputID" value="${ id }" class="form-control">
+		
+		
+		<!-- DEBUG -->
+		<p>
+			<c:out value="${ id }"></c:out>      			
+		</p>
+      
       
         <h2 class="form-signin-heading">
 		<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
@@ -103,7 +115,8 @@
 
 		  <!-- Registration status messages -->
 	  <c:if test="${ empty form.errors }">
-	    <p class="text-success"><c:out value="${ form.result }"></c:out></p>
+	    <%-- <p class="text-success"><c:out value="${ form.result }"></c:out></p> --%>
+	    <p class="text-success"><c:out value="${ status }"></c:out></p>
 	  </c:if>
 	  <c:if test="${ !empty form.errors }">
       	<p class="text-danger"><c:out value="${ form.result }"></c:out></p>  

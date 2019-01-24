@@ -144,9 +144,10 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 
 
 	@Override
-	public void update(Persons person) throws DAOException {
+	public int update(Persons person) throws DAOException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		int status;
 
 		try {
 			
@@ -206,7 +207,7 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 			
 			preparedStatement = initPreparedStatement( connection, sql_update, false); 
 						
-			int status = preparedStatement.executeUpdate();
+			status = preparedStatement.executeUpdate();
 			// Check returned status			
 			System.out.println(status + " update");
 			if( status == 0 ) {
@@ -219,6 +220,7 @@ public class PersonsDaoMySQLImpl implements PersonsDao {
 			quietClosure(preparedStatement, connection);
 		}
 		
+		return status;
 	}
 
 

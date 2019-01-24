@@ -89,7 +89,6 @@ public class Persons implements Serializable{
 	 * @param password Password to encrypt
 	 */
 	public void encryptPassword(String password) {
-		// TODO Crypt passwod with DIGEST_ALGO = "SHA-256";		
 		ConfigurablePasswordEncryptor passwordEncryptor = new ConfigurablePasswordEncryptor();
 		passwordEncryptor.setAlgorithm( DIGEST_ALGO );
 		passwordEncryptor.setPlainDigest( false );

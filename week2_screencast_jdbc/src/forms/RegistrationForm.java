@@ -15,7 +15,7 @@ import model.Persons;
 /**
  * Create a new Person in databse if its email does not yet exists  
  */
-public class RegsitrationForm {
+public class RegistrationForm {
 
 	private PersonsDao personsDao = null;
 	private String result = null;	
@@ -28,11 +28,17 @@ public class RegsitrationForm {
 	private static final String LASTNAME_FIELD = "inputLastname";
 	private static final String BIRTHDAY_FIELD = "inputBirthday";
 	
-	public RegsitrationForm(PersonsDao personsDao) {
+	
+	public RegistrationForm(PersonsDao personsDao) {
 		this.personsDao = personsDao;
 	}
 
 	
+	public RegistrationForm() {
+	}
+
+
+
 	/**
 	 * Set an error entry
 	 * @param field	The field of the form that caused the error
@@ -153,7 +159,7 @@ public class RegsitrationForm {
 	 * @param person 
 	 * @throws FormValidationException
 	 */
-	private void checkPasswords(String password, String confirmPassword, Persons person) {
+	public void checkPasswords(String password, String confirmPassword, Persons person) {
 			try {
 				validatePasswords(password, confirmPassword);
 			} catch (FormValidationException e) {
@@ -185,7 +191,7 @@ public class RegsitrationForm {
 	 * @param confirmPassword
 	 * @throws FormValidationException 
 	 */
-	private void validatePasswords(String password, String confirmPassword) throws FormValidationException{
+	public void validatePasswords(String password, String confirmPassword) throws FormValidationException{
 		if( !password.equals(confirmPassword) ) {
 			throw new FormValidationException("Confirm password does not match password. Please retry. ");
 		}
