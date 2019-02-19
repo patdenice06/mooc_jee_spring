@@ -26,22 +26,22 @@ public class AppJpql {
 		List<Airline> airlines = null;
 		
 		// *** Some examples from https://www.objectdb.com/java/jpa/query/jpql/select ***//
-//		log.debug("Select all objects from table AIRLINE");
+		log.debug("Select all objects from table AIRLINE");
 		
-		// SQL: SELECT * FROM AIRLINE
+		// SQL: SELECT * FROM AIRLINE 
 		// JPQL ...
-//		query = em.createQuery("SELECT c FROM Airline c", Airline.class);
-//		airlines = query.getResultList();			 
-//		showAirlines(airlines);
+		query = em.createQuery("SELECT c FROM Airline c", Airline.class);
+		airlines = query.getResultList();			 
+		showAirlines(airlines);
 		
-//		log.debug("Select all French Airlines");
-//		// SQL: SELECT * FROM AIRLINE  WHERE COUNTRY='France'
-//		// JPQL ...
-//		query = em.createQuery("SELECT c FROM Airline c "
-//							  +"WHERE c.country = :country", Airline.class);
-//		query.setParameter("country", "France");
-//		airlines = query.getResultList();
-//		showAirlines(airlines);
+		log.debug("Select all French Airlines");
+		// SQL: SELECT * FROM AIRLINE  WHERE COUNTRY='France'
+		// JPQL ...
+		query = em.createQuery("SELECT c FROM Airline c "
+							  +"WHERE c.country = :country", Airline.class);
+		query.setParameter("country", "France");
+		airlines = query.getResultList();
+		showAirlines(airlines);
 		
 		
 		log.debug("Search for French Airlines going to Miami: version with JOIN");
@@ -78,6 +78,33 @@ public class AppJpql {
 							.getSingleResult();
 		System.out.printf("There are %d airlines departing from %s.%n", countFromCDG, "CDG");
 
+		
+		log.debug("Search all airlines other than France and ordered result by airline names");
+		List<String> airlineNames = em.createQuery(
+				"SELECT al.name "
+				+"FROM Airline al "
+				+"WHERE al.country <> :country "
+				+"ORDER BY al.name ",
+				String.class
+		)
+		.setParameter("country", "France")
+		.getResultList();
+		
+		System.out.println(
+				String.format("%30s	|",
+						"Name"
+				)
+			);
+			
+			for (String al : airlineNames) {
+				System.out.println(
+					String.format("%30s	|",
+							al
+					)
+				);
+			}
+		
+				
 		
 		log.debug("Close Entity Manager");
 		em.close();
