@@ -1,4 +1,4 @@
-package jpa_queries_jpql;
+package examples;
 
 import java.util.List;
 
