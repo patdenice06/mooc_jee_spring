@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class CompteApp {
 
-	private static Logger log = LoggerFactory.getLogger( Compte.class );
+	private static Logger log = LoggerFactory.getLogger( CompteApp.class );
 	private static EntityManagerFactory emf = null;
 	private static EntityManager em = null;
 	
