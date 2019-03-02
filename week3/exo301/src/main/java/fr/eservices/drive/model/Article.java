@@ -4,15 +4,18 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 
 @Entity
+@Inheritance(strategy=InheritanceType.JOINED)	// Good strategy choice ?
 public class Article {
 
-	@Id
 	/**
 	 * Article ID 	Unique identifier for this article.
 	 */
+	@Id
 	private int id;
 	
 	/**

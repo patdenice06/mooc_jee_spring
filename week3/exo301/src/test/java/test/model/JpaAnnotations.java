@@ -60,6 +60,7 @@ public class JpaAnnotations {
 		assertHasAssociation( k, List.class, manyToManyAnnotation );
 	}	
 
+
 	@Test public void testPerishable() {
 		Class<?> k = Perishable.class;
 		assertHasAnnotation( k, entityAnnotation );
@@ -68,12 +69,14 @@ public class JpaAnnotations {
 		assertHasNbAnnotation( k, 1, temporalAnnotation );
 	}
 	
+
 	@Test public void testProduct() {
 		Class<?> k = Product.class;
 		assertHasAnnotation( k, entityAnnotation );
 		assertHasNbAnnotation( k, 0, idAnnotation );
 		assertHasNbAnnotation( k, 0, temporalAnnotation );
 	}
+
 	
 	@Test public void testCart() {
 		Class<?> k = Cart.class;
@@ -84,6 +87,7 @@ public class JpaAnnotations {
 		assertHasAssociation( k, Customer.class, manyToOneAnnotation );
 		assertHasAssociation( k, List.class, oneToManyAnnotation );
 	}
+
 	
 	@Test public void testCustomer() {
 		Class<?> k = Customer.class;
@@ -92,6 +96,7 @@ public class JpaAnnotations {
 		assertHasAssociation( k, Cart.class, oneToOneAnnotation );
 	}
 	
+
 	@Test public void testOrder() {
 		Class<?> k = Order.class;
 		assertHasAnnotation( k, entityAnnotation );
@@ -102,6 +107,7 @@ public class JpaAnnotations {
 		assertHasAssociation( k, Customer.class, manyToOneAnnotation );
 		assertHasAssociation( k, List.class, oneToManyAnnotation );
 	}
+
 	
 	@Test public void testStatusHistory() {
 		Class<?> k = StatusHistory.class;

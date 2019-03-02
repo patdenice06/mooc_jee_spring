@@ -31,6 +31,7 @@ public class ModelAttributes {
 		assertHasField( k, "categories" );
 	}
 	
+
 	@Test public void testPerishable() {
 		Class<?> k = Perishable.class;
 		assertHasField( k, "bestBefore" );
@@ -40,6 +41,7 @@ public class ModelAttributes {
 		Class<?> k = Product.class;
 	}
 	
+
 	@Test public void testCart() {
 		Class<?> k = Cart.class;
 		assertHasField( k, "createdOn" );
@@ -47,6 +49,7 @@ public class ModelAttributes {
 		assertHasField( k, "customer" );
 	}
 	
+
 	@Test public void testCustomer() {
 		Class<?> k = Customer.class;
 		assertHasField( k, "login" );
@@ -57,6 +60,7 @@ public class ModelAttributes {
 		assertHasField( k, "activeCart" );
 	}
 	
+
 	@Test public void testOrder() {
 		Class<?> k = Order.class;
 		assertHasField( k, "createdOn" );
@@ -68,6 +72,7 @@ public class ModelAttributes {
 		assertHasField( k, "currentStatus" );
 	}
 	
+
 	@Test public void testStatusHistory() {
 		Class<?> k = StatusHistory.class;
 		assertHasField( k, "statusDate" );
