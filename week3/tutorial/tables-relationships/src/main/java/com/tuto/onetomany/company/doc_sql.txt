@@ -1,0 +1,23 @@
+https://openclassrooms.com/fr/courses/4449026-initiez-vous-a-lalgebre-relationnelle-avec-le-langage-sql/4519671-joignez-dans-tous-les-sens-avec-join
+
+Requêtes SQL a tester dans H2 sur les tables mkyongdb.EMPLOYEE et mkyongdb.ADDRESS
+
+Produit cartésien entre les 2 tables:
+SELECT * FROM EMPLOYEE , ADDRESS
+
+On ajoute la condition de restriction:
+SELECT * FROM EMPLOYEE , ADDRESS WHERE EMPLOYEE.EMPLOYEEID = ADDRESS.EMPLOYEEID
+
+La seconde méthode : avec JOIN et ON:
+SELECT * FROM EMPLOYEE  
+JOIN ADDRESS  ON EMPLOYEE.EMPLOYEEID = ADDRESS.EMPLOYEEID
+
+On peut inverser EMPLOYEE et ADDRESS, le résultat sera identique :
+SELECT * FROM ADDRESS   
+JOIN EMPLOYEE ON EMPLOYEE.EMPLOYEEID = ADDRESS.EMPLOYEEID
+
+Selectionne les informations de l'employé: John Smith
+SELECT * 
+FROM EMPLOYEE , ADDRESS  
+WHERE EMPLOYEE.EMPLOYEEID  = ADDRESS.EMPLOYEEID  
+AND EMPLOYEE.EMPLOYEENAME  = 'John, Smith'
