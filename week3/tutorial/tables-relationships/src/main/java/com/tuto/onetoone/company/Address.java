@@ -1,4 +1,4 @@
-package com.tuto.onetomany.company;
+package com.tuto.onetoone.company;
 
 import java.io.Serializable;
 
