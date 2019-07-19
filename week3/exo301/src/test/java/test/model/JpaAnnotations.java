@@ -10,13 +10,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import fr.eservices.drive.model.Article;
-import fr.eservices.drive.model.Cart;
 import fr.eservices.drive.model.Category;
-import fr.eservices.drive.model.Customer;
-import fr.eservices.drive.model.Order;
 import fr.eservices.drive.model.Perishable;
 import fr.eservices.drive.model.Product;
-import fr.eservices.drive.model.StatusHistory;
 
 
 public class JpaAnnotations {
@@ -51,6 +47,7 @@ public class JpaAnnotations {
 		assertHasAnnotation( k, entityAnnotation );
 		assertHasNbAnnotation( k, 1, idAnnotation );
 	}	
+
 	
 	@Test public void testArticle() {
 		Class<?> k = Article.class;
@@ -61,7 +58,8 @@ public class JpaAnnotations {
 	}	
 
 
-	@Test public void testPerishable() {
+
+ 	@Test public void testPerishable() {
 		Class<?> k = Perishable.class;
 		assertHasAnnotation( k, entityAnnotation );
 		
@@ -77,7 +75,8 @@ public class JpaAnnotations {
 		assertHasNbAnnotation( k, 0, temporalAnnotation );
 	}
 
-	
+
+/*	
 	@Test public void testCart() {
 		Class<?> k = Cart.class;
 		assertHasAnnotation( k, entityAnnotation );
@@ -116,6 +115,8 @@ public class JpaAnnotations {
 		assertHasNbAnnotation( k, 1, temporalAnnotation );
 	}
 
+*/
+	
 	private void assertHasAnnotation(Class<?> k, Class<?> annotation) {
 		for ( Annotation ann : k.getAnnotations() ) {
 			if ( ann.annotationType() == annotation ) return;

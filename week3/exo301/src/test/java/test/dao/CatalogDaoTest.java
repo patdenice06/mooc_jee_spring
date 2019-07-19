@@ -40,6 +40,7 @@ public class CatalogDaoTest {
 	
 	@BeforeClass
 	public static void initEmf() throws IOException {
+		
 		ZipFile zipFile = new ZipFile(new File("./test_db.zip"));
 		InputStream is = zipFile.getInputStream(zipFile.getEntry("test_db.mv.db"));
 		FileOutputStream out = new FileOutputStream(new File("test_db.mv.db"));
@@ -51,6 +52,7 @@ public class CatalogDaoTest {
 		out.close();
 		is.close();
 		zipFile.close();
+		
 		Map<String, String> params = new HashMap<>();
 		params.put("javax.persistence.jdbc.url", "jdbc:h2:./test_db");
 		emf = Persistence.createEntityManagerFactory("myApp", params);
@@ -66,18 +68,41 @@ public class CatalogDaoTest {
 		dao = new CatalogDaoJPAImpl(emf.createEntityManager());
 	}
 
+
 	@Test
 	public void test_getCategories() throws Exception {
 		List<Category> cats = dao.getCategories();
 		assertNotNull( cats );
 		assertEquals(5, cats.size());
+				
+		// DEBUG
+		for (Category c : cats) {
+			System.out.println(c.getId() + "\t"+ c.getName() +"\t"+ c.getOrderIdx());
+		}
+		
 		int previousIdx = Integer.MIN_VALUE;
 		for ( Category c : cats ) {
 			assertTrue( previousIdx <= c.getOrderIdx() );
 			previousIdx = c.getOrderIdx();
 		}
 	}
+
+
 	
+	@Test
+	public void test_getArticles() throws Exception {
+		List<Article> arts = dao.getArticles();
+		assertNotNull( arts );
+		assertEquals(767, arts.size());		
+		
+		// DEBUG
+		for (Article a : arts) {
+			System.out.println(a.getId() + "\t"+ a.getEan() +"\t"+ a.getName() +"\t"+ a.getPrice() +"\t"+ a.getVat());
+		}
+	}
+
+	
+
 	@Test
 	public void test_getArticleCategories_match() throws Exception {
 		List<Category> cats = dao.getArticleCategories(123043);
@@ -88,7 +113,55 @@ public class CatalogDaoTest {
 		assertTrue( names.contains("Marché") );
 		assertTrue( names.contains("Boissons") );
 		assertTrue( names.contains("Maison") );
+		
+		//DEBUG
+		System.out.println("test_getArticleCategories_match: categories for article ID = 123043");
+		for (Category category : cats) {
+			System.out.println( category.toString() );
+		}
 	}
+	
+	
+
+	@Test
+	public void test_getArticleCategories_match_API_Criteria() throws Exception {
+		List<Category> cats = dao.getArticleCategories_Criteria(123043);
+		assertNotNull( cats );
+		assertEquals(3, cats.size());
+		List<String> names = new ArrayList<>();
+		for ( Category c : cats ) names.add(c.getName());
+		assertTrue( names.contains("Marché") );
+		assertTrue( names.contains("Boissons") );
+		assertTrue( names.contains("Maison") );
+		
+		//DEBUG
+		System.out.println("test_getArticleCategories_match_API_Criteria: categories for article ID = 123043");
+		for (Category category : cats) {
+			System.out.println( category.toString() );
+		}
+	}
+
+
+	
+	@Test
+	public void test_getArticleCategories_match_API_Criteria_2() throws Exception {
+		List<Category> cats = dao.getArticleCategories_Criteria_2(123043);
+		assertNotNull( cats );
+		assertEquals(3, cats.size());
+		List<String> names = new ArrayList<>();
+		for ( Category c : cats ) names.add(c.getName());
+		assertTrue( names.contains("Marché") );
+		assertTrue( names.contains("Boissons") );
+		assertTrue( names.contains("Maison") );
+		
+		//DEBUG
+		System.out.println("test_getArticleCategories_match_API_Criteria_2: categories for article ID = 123043");
+		for (Category category : cats) {
+			System.out.println( category.toString() );
+		}
+	}
+
+
 	
 	@Test
 	public void test_getArticleCategories_none() throws Exception {
@@ -96,8 +169,10 @@ public class CatalogDaoTest {
 		assertNotNull( cats );
 		assertEquals(0, cats.size());
 	}
+
+
 	
-	@Test(expected=DataException.class)
+	@Test (expected=DataException.class)
 	public void test_getArticleCategories_null() throws Exception {
 		dao.getArticleCategories( Integer.MAX_VALUE );
 	}
@@ -115,6 +190,7 @@ public class CatalogDaoTest {
 		assertTrue( names.contains("Radio CD Cars") );
 		assertTrue( names.contains("Réveil Dark Vador") );
 	}
+
 	
 	@Test
 	public void test_getCategoryContent_none() throws Exception {
@@ -123,10 +199,13 @@ public class CatalogDaoTest {
 		assertEquals(0, articles.size());
 	}
 	
+
 	@Test(expected=DataException.class)
 	public void test_getCategoryContent_null() throws Exception {
 		dao.getCategoryContent( Integer.MAX_VALUE );
 	}
+
+
 	
 	@Test
 	public void test_getPerished_some() throws Exception {
@@ -140,17 +219,19 @@ public class CatalogDaoTest {
 		assertTrue( names.contains("Lait bio demi-écrémé") );
 		assertTrue( names.contains("GrandLait - Lait demi-écrémé") );
 	}
-		
+
+	
 	@Test
 	public void test_getPerished_none() throws Exception {
 		List<Perishable> list = dao.getPerished( sdf.parse("2017-09-01") );
 		assertNotNull(list);
 		assertEquals(0, list.size());
 	}
+
 	
 	@Test(expected=DataException.class)
 	public void test_getPerished_tooMany() throws Exception {
-		dao.getPerished( sdf.parse("2018-07-01") );
-	}
+		dao.getPerished( sdf.parse("2018-07-01") );	// 598 nuplets
+	}	
 	
 }

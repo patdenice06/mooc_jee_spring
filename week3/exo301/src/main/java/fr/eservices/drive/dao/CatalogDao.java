@@ -42,4 +42,9 @@ public interface CatalogDao {
 	List<Perishable> getPerished( Date day ) throws DataException;
 	
 
+	// User adding
+	List<Article> getArticles() throws DataException;	
+	List<Category> getArticleCategories_Criteria(int articleId) throws DataException;
+	List<Category> getArticleCategories_Criteria_2(int articleId) throws DataException;
+	
 }

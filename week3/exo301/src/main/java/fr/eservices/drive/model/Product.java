@@ -1,8 +1,13 @@
 package fr.eservices.drive.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
-public class Product extends Article{
+@Table(name = "PRODUCT")
+public class Product extends Article implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 }

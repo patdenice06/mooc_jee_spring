@@ -1,13 +1,18 @@
 package fr.eservices.drive.model;
 
+import java.io.Serializable;
 import  java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Perishable extends Article{
+@Table(name = "PERISHABLE")
+public class Perishable extends Article implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Best before date for perishable articles
 	 */
@@ -19,7 +24,13 @@ public class Perishable extends Article{
 	 */
 	private String lot;
 
+	// ctors
+    /** Creates a new instance of Perishable */
+    public Perishable() { 
+    }
 
+    
+    
 	// Getters and Setters
 	public String getLot() {
 		return lot;
@@ -36,4 +47,10 @@ public class Perishable extends Article{
 	public void setBestBefore(Date bestBefore) {
 		this.bestBefore = bestBefore;
 	}
+	
+	// Methods
+	@Override
+	public String toString() {		
+		return String.format( "(%s, %s)", this.bestBefore.toString(), this.lot );		
+	}	
 }

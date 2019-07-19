@@ -46,15 +46,18 @@ public class AppTestDao {
 		Category category5 = new Category("Petit électro & multimédia", 4);
 		
 		EntityTransaction tx = em.getTransaction();		
-		tx.begin();
-		try {	
-			
+		try {				
+			tx.begin();
+			log.debug("Persist category1");
 			em.persist(category1);
+			log.debug("Persist category2");
 			em.persist(category2);
+			log.debug("Persist category3");
 			em.persist(category3);
+			log.debug("Persist category4");
 			em.persist(category4);
-			em.persist(category5);
-			
+			log.debug("Persist category5");
+			em.persist(category5);			
 			tx.commit();
 			
 		} catch (Exception e) {

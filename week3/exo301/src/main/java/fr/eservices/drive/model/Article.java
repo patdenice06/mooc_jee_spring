@@ -1,10 +1,13 @@
 package fr.eservices.drive.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -14,56 +17,62 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ARTICLE", catalog = "TEST_DB", schema = "PUBLIC") 
-// @Inheritance(strategy=InheritanceType.JOINED)	// Good strategy choice ?
+@Table(name = "ARTICLE")
+// DTYPE is the default discriminator column name which values are "Perishable" or "Product"
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Article implements Serializable{
-	private static final long serialVersionUID = 8897019909586915538L;
+	private static final long serialVersionUID = 1L;
 	
-	// Properties
-	@Column(name="DTYPE")
-	private String dtype;
 	/**
 	 * Article ID 	Unique identifier for this article.
 	 */
 	@Id
-	@Column(name="ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
 	private int id;
-	
+		
 	/**
 	 * Barcode coded with 13 characters  
 	 */
-	@Column(name="EAN")
-	private String ean13;
-	
+    @Column(name = "EAN")
+	private String ean;
+    
 	/**
 	 * Name of the article
 	 */
-	@Column(name="NAME")
+    @Column(name = "NAME")    
 	private String name;
 
 	/**
 	 * Price is in cents representing
 	 */
-	@Column(name="PRICE")
-	private int price;
+    @Column(name = "PRICE")    
+	private int price;	
 	
 	/**
 	 * VAT number (0.20 = 20%)
 	 */
-	@Column(name="VAT")
-	private double vat;
-	
-	@Column(name="IMG")
-	private String img;
+    @Column(name = "VAT")    
+	private double vat;	
 	
 	/**
-	 * Articles may contain many categories
+	 * Path to the gif image
+	 */
+    @Column(name = "IMG")    
+    private String img;
+    
+	
+	/**
+	 * One article may belong to many categories
 	 */
 	@ManyToMany
-	@JoinTable(name = "ARTICLE_CATEGORY",
-		joinColumns = { @JoinColumn(referencedColumnName = "ID") },
-		inverseJoinColumns = { @JoinColumn(referencedColumnName = "ID") })
-	private List<Category> categories;
+	@JoinTable(name="ARTICLE_CATEGORY",
+       joinColumns=
+           @JoinColumn(name="ARTICLE_ID", referencedColumnName="ID"),
+       inverseJoinColumns=
+           @JoinColumn(name="CATEGORIES_ID", referencedColumnName="ID")
+       )
+	private List<Category> categories = new ArrayList<>();
 
 	
 	// ctors
@@ -72,11 +81,9 @@ public class Article implements Serializable{
 	}
 	
 		
-	public Article(String dtype, int id, String ean13, String name, int price, double vat, String img,
-			List<Category> categories) {
-		this.dtype = dtype;
+	public Article(int id, String ean, String name, int price, double vat, String img, List<Category> categories) {
 		this.id = id;
-		this.ean13 = ean13;
+		this.ean = ean;
 		this.name = name;
 		this.price = price;
 		this.vat = vat;
@@ -91,17 +98,12 @@ public class Article implements Serializable{
 		return id;
 	}
 
-
-	public void setId(int id) {
-		this.id = id;
+	public String getEan() {
+		return ean;
 	}
 
-	public String getEan13() {
-		return ean13;
-	}
-
-	public void setEan13(String ean13) {
-		this.ean13 = ean13;
+	public void setEan(String ean) {
+		this.ean = ean;
 	}
 
 	public int getPrice() {
@@ -128,22 +130,6 @@ public class Article implements Serializable{
 		this.name = name;
 	}
 
-	public String getDtype() {
-		return dtype;
-	}
-
-	public void setDtype(String dtype) {
-		this.dtype = dtype;
-	}
-
-	public String getImg() {
-		return img;
-	}
-
-	public void setImg(String img) {
-		this.img = img;
-	}
-
 	public List<Category> getCategories() {
 		return categories;
 	}
@@ -152,4 +138,9 @@ public class Article implements Serializable{
 		this.categories = categories;
 	}
 	
+	// Methods
+	@Override
+	public String toString() {		
+		return String.format("(%d, %s, %s, %d, %s, %s)", this.id, this.ean, this.name, this.price, new Double(this.vat).toString(), this.img );		
+	}
 }

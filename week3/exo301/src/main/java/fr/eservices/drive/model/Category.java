@@ -1,48 +1,41 @@
 package fr.eservices.drive.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "CATEGORY", catalog = "TEST_DB", schema = "PUBLIC")  
 public class Category implements Serializable{
-	private static final long serialVersionUID = -8647821521022617248L;
+	private static final long serialVersionUID = 1L;
 
 	// Properties
 	/**
 	 * Category ID 	Unique identifier for this category.
 	 */
 	@Id
-	@Column(name="ID")
-	private int id;
-	
+	private int id;	
 	/**
 	 * Category name
 	 */
-	@Column(name="NAME")
-	private String name;
-	
+	private String name;	
 	/**
 	 * Order index that will allow to sort products on an order given by the administrator 
 	 */
-	@Column(name="ORDERIDX")
 	private int orderIdx;
 
-	@ManyToMany(mappedBy = "categories")
-	private List<Article> articles;
-	
+	@ManyToMany(mappedBy="categories")
+	private List<Article> articles = new ArrayList<>();
 	
 	// ctors
-	public Category() {}
+	public Category() {
+		super();		
+	}
 	
 	public Category(String name, int orderIdx) {
-		super();
 		this.name = name;
 		this.orderIdx = orderIdx;
 	}
@@ -51,10 +44,6 @@ public class Category implements Serializable{
 	// Getters and Setters
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -79,6 +68,11 @@ public class Category implements Serializable{
 
 	public void setArticles(List<Article> articles) {
 		this.articles = articles;
-	}
+	}	
 	
+    // Category Representation:
+    @Override
+    public String toString() {
+        return String.format("(%d, %s, %d)", this.id, this.name, this.orderIdx);
+    }
 }
