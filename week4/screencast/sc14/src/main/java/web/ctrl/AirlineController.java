@@ -1,5 +1,7 @@
 package web.ctrl;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,19 @@ public class AirlineController {
 		// use model to set airline attribute
 		model.addAttribute("airline", airline);		
 		return "airline-info";
+	}
+	
+	
+	/**
+	 *
+	 * @return  Airlines view to show all airline companies
+	 */
+	@RequestMapping("/airlines")
+	public String Airlines(Model model) {
+		log.debug("GET Airlines");
+		List<Airline> airlines = airlineDao.list();
+		model.addAttribute("airlines", airlines);
+		return "airlines";
 	}
 	
 }
