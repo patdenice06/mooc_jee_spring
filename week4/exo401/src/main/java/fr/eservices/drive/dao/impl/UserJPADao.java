@@ -4,11 +4,16 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import fr.eservices.drive.dao.UserDao;
 import fr.eservices.drive.model.User;
 
+@Component
 public class UserJPADao extends UserDao {
 	
+	@Autowired
 	EntityManager em;
 	
 	@Override

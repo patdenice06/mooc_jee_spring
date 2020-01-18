@@ -8,6 +8,11 @@ import java.util.Base64;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+@Component
+@Qualifier("hmac")
 public class HmacChecker implements PasswordChecker {
 	
 	@Override

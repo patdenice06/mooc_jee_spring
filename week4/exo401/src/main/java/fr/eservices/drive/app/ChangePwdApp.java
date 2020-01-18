@@ -6,13 +6,17 @@ import java.io.InputStreamReader;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.stereotype.Component;
 
 import fr.eservices.drive.dao.IUserDao;
 import fr.eservices.drive.model.User;
 
+@Component
 public class ChangePwdApp {
 	
+	@Autowired
 	IUserDao userDao;
 
 	public ChangePwdApp() {

@@ -6,9 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Component;
+
 import fr.eservices.drive.dao.UserDao;
 import fr.eservices.drive.model.User;
 
+@Component
 public class UserJDBCDao extends UserDao {
 	
 	Connection conn;
