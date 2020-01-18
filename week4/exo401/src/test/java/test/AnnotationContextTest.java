@@ -34,12 +34,16 @@ public class AnnotationContextTest {
 				k.getAnnotation( Component.class ) );
 	}
 	
+
 	@Test
 	public void testSpringConfig() {
 		Class<?> k = SpringConfig.class;
 		Assert.assertNotNull(k.getAnnotation(Configuration.class));
 		Assert.assertNotNull(k.getAnnotation(ComponentScan.class));
-		List<String> scan = Arrays.asList(k.getAnnotation(ComponentScan.class).basePackages());
+		
+//		List<String> scan = Arrays.asList(k.getAnnotation(ComponentScan.class).basePackages());
+		List<String> scan = Arrays.asList(k.getAnnotation(ComponentScan.class).value());
+		
 		Assert.assertTrue(scan.contains("fr.eservices.drive.dao.impl"));
 		Assert.assertTrue(scan.contains("fr.eservices.drive.util"));
 		Assert.assertTrue(scan.contains("fr.eservices.drive.app"));
@@ -51,6 +55,7 @@ public class AnnotationContextTest {
 		Assert.assertTrue(exposedBean.contains("EntityManager"));
 	}
 	
+
 	@Test
 	public void testDistinctComponents() {
 		Qualifier q1 = HmacChecker.class.getAnnotation(Qualifier.class);
