@@ -8,8 +8,27 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="" class="">
-		<property name="" ref=""/>
+<!-- Déclarez un bean pour le checker MD5 -->	
+	<bean id="md5" class="fr.eservices.drive.util.MD5Checker">
 	</bean>
 
+<!-- Ajoutez un bean de connection SQL dans le contexte, créé à partir du DriverManager. Il vous faudra utiliser la notion de "factory-method"
+     et utiliser "constructor-arg" pour passer des paramètres à cette méthode factory. -->
+ 	<bean id="SQLConnection" class="java.sql.DriverManager" factory-method="getConnection">
+ 		<constructor-arg value="jdbc:h2:./db"></constructor-arg>
+ 	</bean> 
+ 
+<!-- Déclarez un bean pour le userDAO en utilisant l'implémentation JDBC, injectez-y les beans nécessaires
+	 Ajoutez une méthode dans le l'implémentation JDBC pour fermer proprement la connexion lorsque le contexte spring s'arrête.
+	 Configurez le bean correspondant pour appeler cette méthode, à l'aide de "destroy-method" --> 
+ 	<bean id="userJDBCDao" class="fr.eservices.drive.dao.impl.UserJDBCDao" destroy-method="close">
+ 		<property name="conn" ref="SQLConnection"></property>
+ 		<property name="pwdCheck" ref="md5"></property>
+ 	</bean>
+
+<!-- Déclarez un bean pour l'objet ChangePwdApp et injectez le DAO -->
+	<bean id="app" class="fr.eservices.drive.app.ChangePwdApp">
+		<property name="userDao" ref="userJDBCDao"></property>
+	</bean>
+	
 </beans>

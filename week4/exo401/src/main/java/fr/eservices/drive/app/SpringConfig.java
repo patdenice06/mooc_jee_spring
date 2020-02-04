@@ -1,7 +1,9 @@
 package fr.eservices.drive.app;
 
 import javax.persistence.EntityManager;
-
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +19,16 @@ public class SpringConfig {
 	// expose an entity manager for DAO using JPA
 	@Bean
 	EntityManager entityManager() {
-		return null;
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("myApp");
+		EntityManager em = emf.createEntityManager();
+		return em;	
 	}
 	
+	@Bean
+	// expose an entity transaction for DAO using JPA
+	EntityTransaction entityTransaction() {
+		EntityTransaction tx = entityManager().getTransaction();		
+		return tx;		
+	}
 
 }

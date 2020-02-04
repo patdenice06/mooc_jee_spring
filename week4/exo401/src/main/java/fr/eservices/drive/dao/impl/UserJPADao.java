@@ -2,6 +2,7 @@ package fr.eservices.drive.dao.impl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,9 @@ import fr.eservices.drive.model.User;
 public class UserJPADao extends UserDao {
 	
 	@Autowired
-	EntityManager em;
+	private EntityManager em;
+	@Autowired
+	private EntityTransaction tx;
 	
 	@Override
 	public User find(String login) {
@@ -23,22 +26,34 @@ public class UserJPADao extends UserDao {
 	
 	@Override
 	public void save(User user) {
-		em.persist(user);
+		try {
+			tx.begin();
+			em.persist( user );		
+			tx.commit();			
+		} catch (Exception e) {
+		tx.rollback();
+		}
 	}
 	
 	@Override
 	public void doChangePassword(String login, String password) {
-		em.createQuery("update User set password = :PWD where login = :LOGIN")
+		try {
+			tx.begin();
+			em.createQuery("update User set password = :PWD where login = :LOGIN")
 			.setParameter("LOGIN", login)	
 			.setParameter("PWD", password)
-			.executeUpdate();
+			.executeUpdate();			
+			tx.commit();
+		} catch (Exception e) {
+			tx.rollback();
+		}
 	}
 	
 	public static void main(String[] args) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("myApp");
 		UserJPADao dao = new UserJPADao();
 		dao.em = emf.createEntityManager();
-		
+
 		User u = new User();
 		u.setFirstname("Guillaume");
 		u.setLastname("Dufrêne");

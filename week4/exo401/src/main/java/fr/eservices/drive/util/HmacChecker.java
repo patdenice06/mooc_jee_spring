@@ -29,10 +29,8 @@ public class HmacChecker implements PasswordChecker {
 		mac.init(key);
 		
 		byte[] data  = password.getBytes("UTF-8");
-//		byte[] data2 = "0123456789".getBytes("UTF-8");
 
 		mac.update(data);
-//		mac.update(data2);
 
 		byte[] macBytes = mac.doFinal();		
 		

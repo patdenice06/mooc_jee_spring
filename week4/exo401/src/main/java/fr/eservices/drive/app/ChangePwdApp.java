@@ -8,6 +8,8 @@ import java.security.NoSuchAlgorithmException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import fr.eservices.drive.dao.IUserDao;
@@ -15,7 +17,7 @@ import fr.eservices.drive.model.User;
 
 @Component
 public class ChangePwdApp {
-	
+
 	@Autowired
 	IUserDao userDao;
 
@@ -68,13 +70,13 @@ public class ChangePwdApp {
 	}
 	
 	public static ConfigurableApplicationContext getXmlAppContext() {
-		// get "application-context.xml" from classpath and use it to create a spring context
-		return null;
+		// get "application-context.xml" from classpath and use it to create a spring context		
+		return new ClassPathXmlApplicationContext( "classpath:/application-context.xml" );
 	}
 
 	public static ConfigurableApplicationContext getAnnotationAppContext() {
 		// use SpringConfig class to configure an annotion based context
-		return null;
+		return new AnnotationConfigApplicationContext( SpringConfig.class );
 	}
 	
 	private static BufferedReader in;

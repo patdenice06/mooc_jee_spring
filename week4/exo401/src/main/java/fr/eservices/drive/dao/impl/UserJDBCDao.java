@@ -6,16 +6,29 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.springframework.stereotype.Component;
-
 import fr.eservices.drive.dao.UserDao;
 import fr.eservices.drive.model.User;
 
-@Component
 public class UserJDBCDao extends UserDao {
 	
-	Connection conn;
+//	@Autowired
+	private Connection conn;
 	
+
+	public void setConn(Connection conn) {
+		this.conn = conn;
+	}
+
+	
+	public void close() {
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+
 	@Override
 	public User find(String login) {
 		PreparedStatement ps = null;
@@ -84,13 +97,14 @@ public class UserJDBCDao extends UserDao {
 		dao.conn = conn;
 
 		User u = new User();
-		u.setFirstname("Guillaume");
-		u.setLastname("Dufrêne");
-		u.setLogin("dufrene");
+		u.setFirstname("Clint");
+		u.setLastname("Eastwood");
+		u.setLogin("eastwood");
 		u.setPassword("eservices");
 		dao.save(u);
 		
 		conn.close();
+		
 	}
 
 }

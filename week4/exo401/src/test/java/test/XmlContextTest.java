@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +47,7 @@ public class XmlContextTest {
 		
 	}
 	
+
 	@Test
 	public void testComponents() {
 		List<String> components = new ArrayList<>( typePerId.values() ); 
@@ -57,6 +57,7 @@ public class XmlContextTest {
 		assertTrue( components.contains("java.sql.DriverManager") );
 	}
 	
+
 	private Node getNodePerType(String componentType) {
 		NodeList l = doc.getChildNodes();
 		l = l.item(0).getChildNodes();
@@ -70,6 +71,7 @@ public class XmlContextTest {
 		}
 		return null;
 	}
+
 	
 	private List<String> injectedTypes( String componentType ) {
 		List<String> list = new ArrayList<>( );
@@ -107,6 +109,4 @@ public class XmlContextTest {
 		n = getNodePerType("fr.eservices.drive.dao.impl.UserJDBCDao");
 		assertNotNull( n.getAttributes().getNamedItem("destroy-method") );
 	}
-	
-
 }
