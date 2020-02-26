@@ -25,7 +25,7 @@ public class StatusHistory {
 	public TimeObject getTimeObject() {
 		return timeObject;
 	}
-	public void setStatusDate(TimeObject t) {
+	public void setTimeObject(TimeObject t) {
 		this.timeObject = t;
 		
 	}

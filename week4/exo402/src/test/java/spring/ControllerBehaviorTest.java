@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.bind.DatatypeConverter;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +20,7 @@ import org.springframework.ui.ExtendedModelMap;
 
 import fr.eservices.drive.dao.CatalogDao;
 import fr.eservices.drive.dao.DataException;
+import fr.eservices.drive.dao.Status;
 import fr.eservices.drive.dao.StatusHistory;
 import fr.eservices.drive.model.Article;
 import fr.eservices.drive.model.Category;
@@ -113,6 +116,20 @@ public class ControllerBehaviorTest {
 			assertEquals(1, hit_addHistoryStatus);
 			assertEquals("Error", result);
 		}
+		
+		
+		// FOR TESTING
+		{
+			hit_addHistoryStatus = 0;
+			StatusHistory statusHistory = new StatusHistory();
+			statusHistory.setStatus( Status.DELIVERED );
+			statusHistory.setStatusDate( DatatypeConverter.parseDate("2017-11-28T10:00:00Z").getTime() );
+			String result = ctrl.addStatus(2, statusHistory);
+			assertEquals(1, hit_addHistoryStatus);
+			assertEquals("Ok", result);
+		}
+		
+		
 	}
 
 }

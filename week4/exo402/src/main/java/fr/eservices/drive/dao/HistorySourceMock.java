@@ -1,15 +1,20 @@
 package fr.eservices.drive.dao;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import fr.eservices.drive.model.TimeObject;
 import fr.eservices.drive.web.HistorySource;
 
 @Component
@@ -30,6 +35,13 @@ public class HistorySourceMock implements HistorySource {
 		StatusHistory status = new StatusHistory();
 		status.setStatus( Status.valueOf(statusName) );
 		status.setStatusDate( DatatypeConverter.parseDate(dateTime).getTime() );
+		TimeObject t = new TimeObject();
+		Date now = new Date();
+		t.day = DateFormat.getDateInstance(DateFormat.SHORT).format(now);
+		t.time = DateFormat.getTimeInstance(DateFormat.SHORT).format(now);
+		t.locale = Locale.getDefault().toString();
+		t.timestamp = (long) (now.getTime() / 1000);
+		status.setTimeObject(t);
 		return status;
 	}
 
