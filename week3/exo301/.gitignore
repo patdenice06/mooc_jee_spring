@@ -1,1 +1,10 @@
-/target/
+target/
+.classpath
+.project
+.settings/
+logs/
+test_db.mv.db
+test_db.trace.db
+db.mv.db
+db.trace.db
+

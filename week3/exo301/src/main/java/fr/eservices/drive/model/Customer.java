@@ -1,15 +1,23 @@
 package fr.eservices.drive.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="CUSTOMER")
 public class Customer {
 
 	@Id
-	private String login;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+	private int id;
 	
+	private String login;	
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -18,6 +26,7 @@ public class Customer {
 	@OneToOne
 	private Cart activeCart;
 
+	
 	// Getters and Setters
 	public String getLogin() {
 		return login;

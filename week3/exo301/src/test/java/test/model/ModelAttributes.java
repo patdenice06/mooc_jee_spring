@@ -6,7 +6,13 @@ import java.lang.reflect.Field;
 import org.junit.Test;
 
 import fr.eservices.drive.model.Article;
+import fr.eservices.drive.model.Cart;
 import fr.eservices.drive.model.Category;
+import fr.eservices.drive.model.Customer;
+import fr.eservices.drive.model.Order;
+import fr.eservices.drive.model.Perishable;
+import fr.eservices.drive.model.Product;
+import fr.eservices.drive.model.StatusHistory;
 
 public class ModelAttributes {
 	
@@ -26,11 +32,12 @@ public class ModelAttributes {
 		assertHasField( k, "categories" );
 	}
 	
-/*
+
 	@Test public void testPerishable() {
 		Class<?> k = Perishable.class;
 		assertHasField( k, "bestBefore" );
 	}
+	
 	
 	@Test public void testProduct() {
 		Class<?> k = Product.class;
@@ -74,7 +81,7 @@ public class ModelAttributes {
 		assertHasField( k, "status" );
 	}
 
-*/
+
 	private void assertHasField(Class<?> k, String name) {
 		for( Field f : k.getDeclaredFields() ) {
 			if ( f.getName().equals(name) ) return;
