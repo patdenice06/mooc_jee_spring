@@ -1,5 +1,9 @@
 package fr.eservices.drive.web;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -39,6 +43,22 @@ public class AppConfig implements WebApplicationInitializer {
 	      resolver.setPrefix("/WEB-INF/views/");
 	      resolver.setSuffix(".jsp");
 	      return resolver;
+	}
+	
+	// expose this as a bean for spring context
+	// expose an entity manager for DAO using JPA
+	@Bean
+	EntityManager entityManager() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("myApp");
+		EntityManager em = emf.createEntityManager();
+		return em;	
+	}
+	
+	@Bean
+	// expose an entity transaction for DAO using JPA
+	EntityTransaction entityTransaction() {
+		EntityTransaction tx = entityManager().getTransaction();		
+		return tx;		
 	}
 
 }
