@@ -14,21 +14,15 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.xml.bind.DatatypeConverter;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import fr.eservices.drive.model.StatusHistoryEntity;
 import fr.eservices.drive.model.TimeObject;
-import fr.eservices.drive.web.HistorySource;
 
-@Component
-@Qualifier("jpa")
-public class HistorySourceJpa implements HistorySource {
+/**
+ * DAO JPA without Spring context 
+ */
+public class HistorySourceJpa {
 	
-	@Autowired
 	private EntityManager em;
-	@Autowired
 	private EntityTransaction tx;
 	
 	private List<StatusHistory> status;
@@ -55,19 +49,6 @@ public class HistorySourceJpa implements HistorySource {
 		status.setTimeObject(t);
 		return status;
 	}
-
-	@Override
-	public List<StatusHistory> orderHistory(int orderId) {
-		return status;
-	}
-	
-	@Override
-	public void addHistoryStatus(int orderId, StatusHistory statusHistory) 
-	throws DataException {
-		if ( orderId == 666 ) throw new DataException("No such order");
-		status.add(statusHistory);
-	}
-	
 	
 	void save(StatusHistoryEntity statusEntity) {
 		try {

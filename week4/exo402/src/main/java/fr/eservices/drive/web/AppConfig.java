@@ -35,6 +35,7 @@ public class AppConfig implements WebApplicationInitializer {
 		registration.addMapping("*.html", "*.json");
 	}
 	
+	
 	// expose this as a Bean for spring context
 	@Bean
 	public ViewResolver viewResolver() {

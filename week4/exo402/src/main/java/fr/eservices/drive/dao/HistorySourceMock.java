@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -17,8 +16,8 @@ import org.springframework.stereotype.Component;
 import fr.eservices.drive.model.TimeObject;
 import fr.eservices.drive.web.HistorySource;
 
-@Component
-@Qualifier("mock")
+//@Component
+//@Qualifier("mock")
 public class HistorySourceMock implements HistorySource {
 	
 	private List<StatusHistory> status;
