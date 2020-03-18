@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.eservices.drive.dao.DataException;
 import fr.eservices.drive.dao.StatusHistory;
+import fr.eservices.drive.model.StatusHistoryEntity;
 import fr.eservices.drive.model.TimeObject;
 
 
@@ -50,6 +52,48 @@ public class RestHistoryController {
 		}		
 		return "Ok";
 	}
+	
+	
+	@PostMapping(
+				path = "/histories/{orderId}.json",
+				consumes="application/json",
+				produces="application/json")
+	@ResponseBody
+	public String addListStatus( @PathVariable int orderId, @RequestBody List<StatusHistory> histories ) {
+		System.out.println("RestHistoryController.addListStatus()");
+		// try to add a list of status,
+		// return "Ok" or "Error" if exception thrown 		
+		try {
+			historySource.addHistoryStatus(orderId, histories);
+		} catch (DataException e) {
+			System.out.println( e.getMessage() );
+			return "Error";
+		}		
+		return "Ok";
+	}
+	
+	
+	/**
+	 * Get all status for a given order in JSON format 
+	 * @param orderId ID of an order
+	 * @return All the status from a given order id
+	 */
+	@GetMapping(
+			path = "/history/all/{orderId}.json",
+			produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+			)
+	public List<StatusHistoryEntity> getHistoryAll( @PathVariable int orderId ){
+		List<StatusHistoryEntity> results = new ArrayList<StatusHistoryEntity>( Arrays.asList());;
+		try {
+			results = historySource.orderHistoryAll(orderId);
+		} catch (DataException e) {
+			e.printStackTrace();
+			// return "Error";
+		}
+		
+		return results;
+	}
+	
 	
 	
 	private TimeObject getTime() {

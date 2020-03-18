@@ -17,9 +17,9 @@ public class StatusHistoryEntity {
 	@GeneratedValue
 	private int id;
 	
+	private int orderId;
 	@Temporal(value = TemporalType.DATE)
-	private Date statusDate;
-	
+	private Date statusDate;	
 	private String status;
 
 	
@@ -28,8 +28,12 @@ public class StatusHistoryEntity {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public int getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
 	}
 
 	public Date getStatusDate() {

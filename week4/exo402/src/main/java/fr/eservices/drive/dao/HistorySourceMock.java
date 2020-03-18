@@ -13,6 +13,7 @@ import javax.xml.bind.DatatypeConverter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import fr.eservices.drive.model.StatusHistoryEntity;
 import fr.eservices.drive.model.TimeObject;
 import fr.eservices.drive.web.HistorySource;
 
@@ -54,5 +55,17 @@ public class HistorySourceMock implements HistorySource {
 	throws DataException {
 		if ( orderId == 666 ) throw new DataException("No such order");
 		status.add(statusHistory);
+	}
+
+	@Override
+	public void addHistoryStatus(int orderId, List<StatusHistory> histories) throws DataException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<StatusHistoryEntity> orderHistoryAll(int orderId) throws DataException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -25,6 +25,7 @@ import fr.eservices.drive.dao.StatusHistory;
 import fr.eservices.drive.model.Article;
 import fr.eservices.drive.model.Category;
 import fr.eservices.drive.model.Perishable;
+import fr.eservices.drive.model.StatusHistoryEntity;
 import fr.eservices.drive.web.CatalogController;
 import fr.eservices.drive.web.HistorySource;
 import fr.eservices.drive.web.RestHistoryController;
@@ -52,6 +53,16 @@ public class ControllerBehaviorTest {
 		@Override public void addHistoryStatus(int orderId, StatusHistory statusHistory) throws DataException {
 			hit_addHistoryStatus++;
 			if ( orderId == 666 ) throw new DataException("Excepted");
+		}
+		@Override
+		public void addHistoryStatus(int orderId, List<StatusHistory> histories) throws DataException {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public List<StatusHistoryEntity> orderHistoryAll(int orderId) throws DataException {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	}
 	

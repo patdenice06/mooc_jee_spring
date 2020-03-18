@@ -1,15 +1,24 @@
 package fr.eservices.drive.dao;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import fr.eservices.drive.model.TimeObject;
 
-public class StatusHistory {
+public class StatusHistory implements Serializable{
+	private static final long serialVersionUID = -1072811194225726450L;
 	
+	private int orderId;
 	private Status status;
 	private Date statusDate;
 	private TimeObject timeObject;
 	
+	public int getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
 	public Status getStatus() {
 		return status;
 	}
@@ -26,10 +35,13 @@ public class StatusHistory {
 		return timeObject;
 	}
 	public void setTimeObject(TimeObject t) {
-		this.timeObject = t;
-		
+		this.timeObject = t;		
 	}
 	
+    @Override
+    public String toString() {
+        return "StatusHistory [orderId=" + orderId + ", status=" + status.name() + ", statusDate="+  statusDate.toLocaleString()  +"]";
+    }
 	
 	
 	

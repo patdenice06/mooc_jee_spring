@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -66,8 +67,38 @@ public class HistorySourceJpaImpl implements HistorySource{
 		statusEntity.setStatusDate( statusHistory.getStatusDate() );
 		save(statusEntity);
 	}
+	
 
+	@Override
+	public List<StatusHistoryEntity> orderHistoryAll(int orderId) throws DataException {
+		// Get all history status from a given orderId
+		  TypedQuery<StatusHistoryEntity> query =
+			      em.createQuery("SELECT s FROM StatusHistoryEntity AS s WHERE s.orderId = :p_orderId", StatusHistoryEntity.class);
+		  query.setParameter("p_orderId", orderId);
+		return query.getResultList();
+	}	
 
+	
+	@Override
+	public void addHistoryStatus(int orderId, List<StatusHistory> histories) throws DataException {
+		// Create a list of Status History in table STATUS_HISTORY
+		System.out.println("HistorySourceJpaImpl.addHistoryStatus()");
+		
+		StatusHistoryEntity statusEntity = null;
+		for (StatusHistory history : histories) {
+			statusEntity = new StatusHistoryEntity();
+			statusEntity.setOrderId(orderId);
+			statusEntity.setStatus( history.getStatus().name() );
+			statusEntity.setStatusDate( history.getStatusDate() );
+			
+			//DEBUG
+			System.out.println( history.toString() );
+			
+			save( statusEntity );
+		}
+	}
+	
+	
 	private void save(StatusHistoryEntity statusEntity) {
 		System.out.println("HistorySourceJpaImpl.save()");
 		try {
@@ -78,5 +109,9 @@ public class HistorySourceJpaImpl implements HistorySource{
 			tx.rollback();
 		}		
 	}
+
+
+
+
 
 }
