@@ -35,7 +35,7 @@ public class HistorySourceJpaImpl implements HistorySource{
 	@Override
 	public List<StatusHistory> orderHistory(int orderId) {
 		// Return status from table STATUS_HISTORY
-		System.out.println("HistorySourceJpaImpl.orderHistory()");
+		System.out.println("HistorySourceJpaImpl.orderHistory()"+ "\t orderId="+ orderId);
 		
 		List<StatusHistory> statusHistories = new ArrayList<StatusHistory>( Arrays.asList());
 		StatusHistoryEntity statusHistoryEntity = new StatusHistoryEntity();
@@ -49,6 +49,7 @@ public class HistorySourceJpaImpl implements HistorySource{
 		}		
 		
 		StatusHistory statusHistory = new StatusHistory();
+		statusHistory.setOrderId(orderId);
 		statusHistory.setStatus( Status.valueOf(statusHistoryEntity.getStatus()) );
 		statusHistory.setStatusDate( statusHistoryEntity.getStatusDate() );
 		statusHistories.add(0, statusHistory);
@@ -63,6 +64,7 @@ public class HistorySourceJpaImpl implements HistorySource{
 		System.out.println("HistorySourceJpaImpl.addHistoryStatus(). orderID = "+ orderId);
 		
 		StatusHistoryEntity statusEntity = new StatusHistoryEntity();
+		statusEntity.setOrderId( orderId );
 		statusEntity.setStatus( statusHistory.getStatus().name() );
 		statusEntity.setStatusDate( statusHistory.getStatusDate() );
 		save(statusEntity);
@@ -70,8 +72,10 @@ public class HistorySourceJpaImpl implements HistorySource{
 	
 
 	@Override
-	public List<StatusHistoryEntity> orderHistoryAll(int orderId) throws DataException {
+	public List<StatusHistoryEntity> orderAllHistory(int orderId) throws DataException {
 		// Get all history status from a given orderId
+		System.out.println("HistorySourceJpaImpl.orderAllHistoryl()"+ "\t orderId= "+ orderId);
+		
 		  TypedQuery<StatusHistoryEntity> query =
 			      em.createQuery("SELECT s FROM StatusHistoryEntity AS s WHERE s.orderId = :p_orderId", StatusHistoryEntity.class);
 		  query.setParameter("p_orderId", orderId);
@@ -80,14 +84,14 @@ public class HistorySourceJpaImpl implements HistorySource{
 
 	
 	@Override
-	public void addHistoryStatus(int orderId, List<StatusHistory> histories) throws DataException {
+	public void addHistoryAllStatusl(int orderId, List<StatusHistory> histories) throws DataException {
 		// Create a list of Status History in table STATUS_HISTORY
-		System.out.println("HistorySourceJpaImpl.addHistoryStatus()");
+		System.out.println("HistorySourceJpaImpl.addHistoryAllStatusl()");
 		
 		StatusHistoryEntity statusEntity = null;
 		for (StatusHistory history : histories) {
 			statusEntity = new StatusHistoryEntity();
-			statusEntity.setOrderId(orderId);
+			statusEntity.setOrderId(history.getOrderId());
 			statusEntity.setStatus( history.getStatus().name() );
 			statusEntity.setStatusDate( history.getStatusDate() );
 			

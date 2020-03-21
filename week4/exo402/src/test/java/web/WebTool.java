@@ -26,6 +26,7 @@ public class WebTool {
 	
 	private String host;
 	private String path;
+	private String urlEncoded;
 	
 	private int returnCode = -1; 
 	
@@ -34,6 +35,14 @@ public class WebTool {
 		this.path = path;
 	}
 	
+	public String getUrlEncoded() {
+		return urlEncoded;
+	}
+
+	public void setUrlEncoded(String urlEncoded) {
+		this.urlEncoded = urlEncoded;
+	}
+
 	public String header(String url, String header) throws IOException {
 		HttpURLConnection conn = null;
 		
@@ -66,7 +75,8 @@ public class WebTool {
 		if ( "POST".equals(method) ) {
 			conn.setDoOutput( true );
 			conn.setRequestMethod("POST");
-			conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+//			conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			conn.setRequestProperty("Content-Type", getUrlEncoded());
 			OutputStream out = conn.getOutputStream();
 			out.write( data.getBytes() );
 			out.flush();
@@ -139,6 +149,5 @@ public class WebTool {
 		in.close();
 		return new String( out.toByteArray() );
 	}
-
 
 }

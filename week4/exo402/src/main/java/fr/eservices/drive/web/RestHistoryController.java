@@ -41,7 +41,7 @@ public class RestHistoryController {
 	// map this operation to POST only
 	@PostMapping( path = "/history/{orderId}.json")
 	public String addStatus( @PathVariable int orderId, @RequestBody StatusHistory history ) {
-		System.out.println("RestHistoryController.addStatus()");
+		System.out.println("RestHistoryController.addStatus()"+ "\t orderId="+ orderId);
 		// try to add a status,
 		// return "Ok" or "Error" if exception thrown 		
 		try {
@@ -52,27 +52,9 @@ public class RestHistoryController {
 		}		
 		return "Ok";
 	}
+
 	
-	
-	@PostMapping(
-				path = "/histories/{orderId}.json",
-				consumes="application/json",
-				produces="application/json")
-	@ResponseBody
-	public String addListStatus( @PathVariable int orderId, @RequestBody List<StatusHistory> histories ) {
-		System.out.println("RestHistoryController.addListStatus()");
-		// try to add a list of status,
-		// return "Ok" or "Error" if exception thrown 		
-		try {
-			historySource.addHistoryStatus(orderId, histories);
-		} catch (DataException e) {
-			System.out.println( e.getMessage() );
-			return "Error";
-		}		
-		return "Ok";
-	}
-	
-	
+
 	/**
 	 * Get all status for a given order in JSON format 
 	 * @param orderId ID of an order
@@ -85,13 +67,38 @@ public class RestHistoryController {
 	public List<StatusHistoryEntity> getHistoryAll( @PathVariable int orderId ){
 		List<StatusHistoryEntity> results = new ArrayList<StatusHistoryEntity>( Arrays.asList());;
 		try {
-			results = historySource.orderHistoryAll(orderId);
+			results = historySource.orderAllHistory(orderId);
 		} catch (DataException e) {
 			e.printStackTrace();
 			// return "Error";
 		}
 		
 		return results;
+	}	
+	
+	
+	@PostMapping(
+				path = "/histories/{orderId}.json",
+				consumes="application/json",
+				produces="application/json")
+	@ResponseBody
+	public String addListStatus( @PathVariable int orderId, @RequestBody List<StatusHistory> histories ) {
+		System.out.println("RestHistoryController.addListStatus()"+ "\t orderId="+ orderId);
+		// try to add a list of status,
+		// return "Ok" or "Error" if exception thrown 		
+		
+		// Set good orderId value to all status of the order
+		for(StatusHistory statusHistory : histories) {
+			statusHistory.setOrderId(orderId);
+		}
+		
+		try {
+			historySource.addHistoryAllStatusl(orderId, histories);
+		} catch (DataException e) {
+			System.out.println( e.getMessage() );
+			return "Error";
+		}		
+		return "Ok";
 	}
 	
 	

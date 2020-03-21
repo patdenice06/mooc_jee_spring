@@ -10,7 +10,7 @@ public interface HistorySource {
 	
 	List<StatusHistory> orderHistory( int orderId );
 	void addHistoryStatus( int orderId, StatusHistory statusHistory ) throws DataException;
-	void addHistoryStatus(int orderId, List<StatusHistory> histories) throws DataException;
-	List<StatusHistoryEntity> orderHistoryAll(int orderId) throws DataException;
+	void addHistoryAllStatusl(int orderId, List<StatusHistory> histories) throws DataException;
+	List<StatusHistoryEntity> orderAllHistory(int orderId) throws DataException;
 
 }

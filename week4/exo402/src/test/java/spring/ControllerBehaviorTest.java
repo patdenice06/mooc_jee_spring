@@ -55,12 +55,12 @@ public class ControllerBehaviorTest {
 			if ( orderId == 666 ) throw new DataException("Excepted");
 		}
 		@Override
-		public void addHistoryStatus(int orderId, List<StatusHistory> histories) throws DataException {
+		public void addHistoryAllStatusl(int orderId, List<StatusHistory> histories) throws DataException {
 			// TODO Auto-generated method stub
 			
 		}
 		@Override
-		public List<StatusHistoryEntity> orderHistoryAll(int orderId) throws DataException {
+		public List<StatusHistoryEntity> orderAllHistory(int orderId) throws DataException {
 			// TODO Auto-generated method stub
 			return null;
 		}

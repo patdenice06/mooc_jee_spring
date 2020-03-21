@@ -40,7 +40,7 @@ public class StatusHistory implements Serializable{
 	
     @Override
     public String toString() {
-        return "StatusHistory [orderId=" + orderId + ", status=" + status.name() + ", statusDate="+  statusDate.toLocaleString()  +"]";
+        return "StatusHistory [orderId=" + this.orderId + ", status=" + this.status.name() + ", statusDate="+  this.statusDate.toLocaleString()  +"]";
     }
 	
 	
