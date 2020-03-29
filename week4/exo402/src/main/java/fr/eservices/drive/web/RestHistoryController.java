@@ -34,14 +34,12 @@ public class RestHistoryController {
 	// map this operation to GET only
 	@GetMapping(path = "/history/{orderId}.json")
 	public List<StatusHistory> getHistory( @PathVariable int orderId ) {
-		System.out.println("RestHistoryController.getHistory()");
 		return historySource.orderHistory(orderId);		
 	}
 	
 	// map this operation to POST only
 	@PostMapping( path = "/history/{orderId}.json")
 	public String addStatus( @PathVariable int orderId, @RequestBody StatusHistory history ) {
-		System.out.println("RestHistoryController.addStatus()"+ "\t orderId="+ orderId);
 		// try to add a status,
 		// return "Ok" or "Error" if exception thrown 		
 		try {
@@ -83,7 +81,6 @@ public class RestHistoryController {
 				produces="application/json")
 	@ResponseBody
 	public String addListStatus( @PathVariable int orderId, @RequestBody List<StatusHistory> histories ) {
-		System.out.println("RestHistoryController.addListStatus()"+ "\t orderId="+ orderId);
 		// try to add a list of status,
 		// return "Ok" or "Error" if exception thrown 		
 		

@@ -35,7 +35,6 @@ public class HistorySourceJpaImpl implements HistorySource{
 	@Override
 	public List<StatusHistory> orderHistory(int orderId) {
 		// Return status from table STATUS_HISTORY
-		System.out.println("HistorySourceJpaImpl.orderHistory()"+ "\t orderId="+ orderId);
 		
 		List<StatusHistory> statusHistories = new ArrayList<StatusHistory>( Arrays.asList());
 		StatusHistoryEntity statusHistoryEntity = new StatusHistoryEntity();
@@ -61,7 +60,6 @@ public class HistorySourceJpaImpl implements HistorySource{
 	@Override
 	public void addHistoryStatus(int orderId, StatusHistory statusHistory) throws DataException {
 		// Create a Status History in table STATUS_HISTORY
-		System.out.println("HistorySourceJpaImpl.addHistoryStatus(). orderID = "+ orderId);
 		
 		StatusHistoryEntity statusEntity = new StatusHistoryEntity();
 		statusEntity.setOrderId( orderId );
@@ -74,7 +72,6 @@ public class HistorySourceJpaImpl implements HistorySource{
 	@Override
 	public List<StatusHistoryEntity> orderAllHistory(int orderId) throws DataException {
 		// Get all history status from a given orderId
-		System.out.println("HistorySourceJpaImpl.orderAllHistoryl()"+ "\t orderId= "+ orderId);
 		
 		  TypedQuery<StatusHistoryEntity> query =
 			      em.createQuery("SELECT s FROM StatusHistoryEntity AS s WHERE s.orderId = :p_orderId", StatusHistoryEntity.class);
@@ -86,7 +83,6 @@ public class HistorySourceJpaImpl implements HistorySource{
 	@Override
 	public void addHistoryAllStatusl(int orderId, List<StatusHistory> histories) throws DataException {
 		// Create a list of Status History in table STATUS_HISTORY
-		System.out.println("HistorySourceJpaImpl.addHistoryAllStatusl()");
 		
 		StatusHistoryEntity statusEntity = null;
 		for (StatusHistory history : histories) {
@@ -104,7 +100,6 @@ public class HistorySourceJpaImpl implements HistorySource{
 	
 	
 	private void save(StatusHistoryEntity statusEntity) {
-		System.out.println("HistorySourceJpaImpl.save()");
 		try {
 			tx.begin();
 				em.persist( statusEntity );		
