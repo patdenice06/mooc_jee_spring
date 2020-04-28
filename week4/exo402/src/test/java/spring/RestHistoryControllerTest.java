@@ -29,6 +29,7 @@ import fr.eservices.drive.dao.StatusHistory;
 import fr.eservices.drive.model.StatusHistoryEntity;
 import fr.eservices.drive.model.TimeObject;
 import fr.eservices.drive.web.RestHistoryController;
+import h2.H2jdbcCloseConnection;
 import web.WebTool;
 
 public class RestHistoryControllerTest {
@@ -56,6 +57,7 @@ public class RestHistoryControllerTest {
 	
 	@After
 	public void closeContext() {
+		H2jdbcCloseConnection.close();
 		ctx.close();
 	}	
 	

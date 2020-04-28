@@ -18,11 +18,23 @@
   
   <dependencies>
   
-	<dependency>
+<!--
+	GitHub vulérability: upgrade from 5.1.11.RELEASE to  5.2.5.RELEASE
+ 	<dependency>
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-webmvc</artifactId>
 	    <version>5.1.11.RELEASE</version>
 	</dependency>
+ -->
+ 
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-webmvc</artifactId>
+	    <version>5.2.5.RELEASE</version>
+	</dependency>
+
+
 
   <!-- jackson-dataformat-csv required by CatalogMockDao -->
   <dependency>
