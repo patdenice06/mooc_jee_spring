@@ -1,13 +1,18 @@
 package dao;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.stereotype.Component;
 
 import flights.Airline;
 
-// TODO: set as component
+// set as component
+@Component
 public class AirlineDao {
 
-	// TODO : inject entity manager
+	// inject entity manager
+	@PersistenceContext
 	EntityManager em;
 	
 	public Airline find(int id) {

@@ -44,7 +44,13 @@ implements ApplicationListener<ApplicationContextEvent>
 		return emf;
 	}
 	
-	// TODO : add a transaction manager in the context
+	// add a transaction manager in the context
+	@Bean
+	public PlatformTransactionManager txManager(EntityManagerFactory emf) {
+		JpaTransactionManager tx = new JpaTransactionManager(emf);
+		return tx;
+	}
+	
 	
 	@Override
 	public void onApplicationEvent(ApplicationContextEvent event) {
@@ -57,7 +63,7 @@ implements ApplicationListener<ApplicationContextEvent>
 		
 		log.info("Unregister H2 JDBC Driver.");
 		try {
-			Driver driver = DriverManager.getDriver("jdbc:h2:xxx");
+			Driver driver = DriverManager.getDriver("jdbc:h2:./openFlightsDB");
 			DriverManager.deregisterDriver(driver);
 		} catch( SQLException e ) {
 			log.info("Unable to unregister driver.", e);

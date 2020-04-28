@@ -1,5 +1,7 @@
 package web.ctrl;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +22,19 @@ public class AirportController {
 	@Autowired
 	AirportDao dao;
 	
+	
 	@RequestMapping("/airports")
 	public String list(
 		Model model,
 		@RequestParam(required=false, defaultValue="France")
 		String country
 	) {
-		// TODO : use dao to get airports and countries
+		// use dao to get airports and countries
+		List<String> countries = dao.existingCountries();
+		List<Airport> airports = dao.byCountry( country );
+		
+		model.addAttribute( "countries", countries );
+		model.addAttribute( "airports", airports );
 		
 		return "airport-list";
 	}
@@ -47,7 +55,7 @@ public class AirportController {
 		log.debug("GET airport edit {}", id);
 		
 		// TODO : get airport from dao by id (for editing)
-
+//		airport = dao.find( Integer.parseInt(id) );
 		model.addAttribute("airport", airport);
 		return "airport-edit";
 	}

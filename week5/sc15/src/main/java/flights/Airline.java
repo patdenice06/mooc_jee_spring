@@ -122,6 +122,10 @@ public class Airline implements Serializable{
 		this.active = active;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "Airline [id=" + airlineId + ", name=" + name + ", alias=" + alias + ", iata=" + iata 
+				+ ", icao=" + icao + ", callsign=" + callsign + ", country=" + country + ", active=" + active + "]";
+	}	
 
 }

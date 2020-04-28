@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.stereotype.Component;
 
 import flights.Route;
 
-// TODO : expose as component
+// expose as component
+@Component
 public class RouteDao {
 
-	// TODO : inject EntityManager
+	// inject EntityManager
+	@PersistenceContext
 	private EntityManager em;
 	
 	public List<Route> findRoutesByCountries(String fromCountry, String toCountry) {

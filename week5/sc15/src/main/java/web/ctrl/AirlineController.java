@@ -11,24 +11,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import dao.AirlineDao;
 import flights.Airline;
 
-// TODO : set as a controller
+@Controller
 public class AirlineController {
 	
 	private static Logger log = LoggerFactory.getLogger(AirlineController.class);
 
-	// TODO : inject dao
+	// inject dao
+	@Autowired
 	AirlineDao airlineDao;
 	
-	// TODO : map to URL "/airline/{id}"
+	// map to URL "/airline/{id}"
+	@RequestMapping(path="/airline/{id}") 
 	public String findAirline( 
-			// TODO : inject model
-			// TODO : define id as a parameter from URL
+			// inject model
+			// define id as a parameter from URL
+			Model model,
+			@PathVariable
 			int id 
 	) {
 		log.debug("GET Airline info {}", id);
 		Airline airline = airlineDao.find( id );
-		// TODO : use model to set airline attribute
 		
+		// DEBUG
+		System.out.println(airline);
+		
+		// use model to set airline attribute
+		model.addAttribute( "airline", airline );
 		return "airline-info";
 	}
 	

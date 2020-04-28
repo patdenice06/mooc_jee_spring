@@ -1,8 +1,7 @@
-<% /* 
-   Declare common taglib and spring form taglib here
-   */
-%>
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="layout-header.jsp" %>
+
 <div class="col-md-6 col-md-offset-3">
 <h2>
   <span class="glyphicon glyphicon-road" aria-hidden="true"></span>

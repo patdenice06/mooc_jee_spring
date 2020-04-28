@@ -1,3 +1,5 @@
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="layout-header.jsp" %>
 <div class="col-md-6 col-md-offset-3">
 <h2>
@@ -7,17 +9,17 @@
 <form>
 
 <!--
-
 TODO: check "xxxx" on each form input an assign its value from 
       the model attribute object "airline"
-
 -->
+
+
 
   <div class="form-group">
     <label for="fId">Id</label>
 
     <input 
-	  value="xxxx"
+	  value="${airline.airlineId }"
 	  type="text" class="form-control" id="fId" placeholder="Id">
   </div>
   <div class="form-group">
