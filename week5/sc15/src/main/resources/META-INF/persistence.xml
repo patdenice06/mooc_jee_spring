@@ -12,7 +12,7 @@
   <property name="javax.persistence.jdbc.driver"  value="org.h2.Driver"/>
   <!-- TODO: Change file location to your H2 database ! -->
   <property name="javax.persistence.jdbc.url"  
-  	value="jdbc:h2:./openFlightsDB"/>   
+  	value="jdbc:h2:/media/patrick/DATA/edu/j2e-spring/wokspace/week5/sc15/openFlightsDB"/>   
   
   <property name="hibernate.dialect"        value="org.hibernate.dialect.H2Dialect"/>
   <property name="hibernate.hbm2ddl.auto"   value="update"/>
