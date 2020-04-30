@@ -54,8 +54,8 @@ public class AirportController {
 		Airport airport = new Airport();
 		log.debug("GET airport edit {}", id);
 		
-		// TODO : get airport from dao by id (for editing)
-//		airport = dao.find( Integer.parseInt(id) );
+		// get airport from dao by id (for editing)
+		airport = dao.find( Integer.parseInt(id) );
 		model.addAttribute("airport", airport);
 		return "airport-edit";
 	}
