@@ -58,10 +58,20 @@ public class AirportDao {
 		return em.find(Airport.class, id);
 	}
 	
-	public void update(Airport airport) {
+	public void update(Airport airport, int id) {
+		log.debug("UPDATE an airport"); 
 		TransactionStatus status = txManager.getTransaction( new DefaultTransactionDefinition( TransactionDefinition.PROPAGATION_REQUIRED ) );
 		em.merge(airport);
 		txManager.commit(status);
+	}
+
+
+
+	public void delete(Airport airport) {
+		log.debug("DELETE an airport by its ID");		
+		TransactionStatus status = txManager.getTransaction( new DefaultTransactionDefinition( TransactionDefinition.PROPAGATION_REQUIRED ) );
+		em.remove( em.contains(airport) ? airport : em.merge(airport) );
+		txManager.commit(status);	
 	}
 
 }

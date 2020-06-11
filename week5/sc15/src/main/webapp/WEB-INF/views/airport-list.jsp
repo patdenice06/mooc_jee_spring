@@ -30,7 +30,7 @@
 
 <table class="table table-bordered table-striped table-hover">
   <tr>
-	<th>#</th>
+	<th>id</th>
 	<th>ICAO</th>
 	<th>IATA</th>
 	<th>Name</th>
@@ -39,7 +39,7 @@
   <!-- iterate through airports and show each one in a row -->
   <c:forEach items="${airports}" var="airport">
 	  <tr>
-		<td><a href="#link_to_edit">${airport.airportId}</a></td>
+		<td><a href="airport/${airport.airportId}">${airport.airportId}</a></td>
 		<td>${airport.icao}</td>
 		<td>${airport.iata}</td>
 		<td>${airport.name}</td>
